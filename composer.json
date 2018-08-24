@@ -1,0 +1,32 @@
+{
+	"name" : "ronwhite/games",
+	"description" : "Various desktop puzzles games.",
+	"type" : "project",
+	"license" : "MIT",
+	"authors" : [{
+			"name" : "rwhite53",
+			"email" : "rwhite@october-design.com"
+		}
+	],
+	"minimum-stability" : "dev",
+	"require" : {
+		"symfony/class-loader" : "^3.4@dev"
+	},
+	"config" : {
+		"classmap-authoritative" : true
+	},
+	"autoload" : {
+		"psr-4" : {
+			"Application\\" : "module/Application/src/",
+			"EightQueens\\" : [
+				"module/EightQueens/src/"
+			]
+		}
+	},
+	"scripts" : {
+		"cs-check" : "phpcs",
+		"cs-fix" : "phpcbf",
+		"serve" : "php -S 0.0.0.0:8080 -t public/ public/index.php",
+		"test" : "phpunit"
+	}
+}
