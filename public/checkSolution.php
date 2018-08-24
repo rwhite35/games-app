@@ -1,42 +1,26 @@
 <?php
-$method = $_SERVER['REQUEST_METHOD'];
-$request = explode('/', trim($_SERVER['PHP_SELF'], '/') );
-$jsonArr = [
-    "root"      => $request[0],
-    "parent"    => $request[1],
-    "public"    => $request[2],
-    "script"    => $request[3]
-];
+chdir(dirname(__DIR__));
+require_once 'vendor/autoload.php';
 
-$input = json_decode( file_get_contents('php://input'), true);
+use EightQueens\Gameboard\Controller\BoardController;
+$boardController = new BoardController();
 
-ob_start();
-print_r($input);
-$str = ob_get_clean();
-error_log($str);
+$json = "checkSolution checking submitted solution.";
 
-/*
-$mes = "checkSolution request: ";
-$mes .= " request method $method ";
-$mes .= " path request path: ";
-print_r($request);
-$mes .= " json input ";
-print_r($input);
-$str = ob_get_clean();
-error_log($str);
-*/
+if ( $boardController instanceof BoardController ) {
+    
+    $resultArr = $boardController->submitAction( $_GET );
 
-/*
-if( !isset($_GET['Trial']) ) { $aResult['error'] = 'No function name!'; }
-
-if ( is_callable( Gameboard::submitAcion ) ) {
-    $mes = "we can call submitAction method!";
-} else {
-    $mes = "wasn't able to call submitAction.";
+    ob_start();
+    echo "";
+    print_r($resultArr);
+    $str = ob_get_clean();
+    error_log($str);
+    
+    $json = json_encode($resultArr);
+    error_log($json);  
 }
-*/
-$json = json_encode($jsonArr);
-error_log($json);
+
 header('Content-Type: application/json');
 echo $json; 
 

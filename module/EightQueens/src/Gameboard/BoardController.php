@@ -63,7 +63,7 @@ class BoardController extends Board
                 
                 // test this puzzle solution
                 $resultArr = $submitSolution->checkSolution();
-                $json = json_encode($resultArr);
+                // $json = json_encode($resultArr);
                  
             } else {
                 throw new Exception( "Submit Action Error:" .
@@ -78,10 +78,7 @@ class BoardController extends Board
             
         }
         
-        // not using a framework to handle response back to view.
-        // will handle header here
-        header('Content-type:application/json;charset=utf-8');
-        echo $json;
+        return json_encode($resultArr);
         
     }
     
