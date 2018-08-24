@@ -46,6 +46,7 @@ $boardMatrix = $boardController->boardAction();
 		  .hearts { background-image: url("img/hearts.png"); background-size: 57px; }
 		  .spades { background-image: url("img/spades.png"); background-size: 57px; }
 		  .Btile { background-color: #eceaea }
+		  #result { margin-left:10% }
 		</style>
 		
 	</head>
@@ -64,7 +65,7 @@ $boardMatrix = $boardController->boardAction();
 			</p>
 		</header>
 		
-		<div id="result"></div>
+		<div id="result"><span class="message"></span></div>
 		
 		<div class="container">
 				<?php include 'module/EightQueens/view/gameboard/board.php'?>
@@ -72,8 +73,8 @@ $boardMatrix = $boardController->boardAction();
 		
 		<footer>
 			<div class="stats">
-				<div class="hearts box"><span class="snum">3</span></div>
-				<div class="spades box"><span class="snum" style="color:#ffffff">1</span></div>
+				<div class="hearts box"><span id="tt" class="snum">0</span></div>
+				<div class="spades box"><span id="ss" class="snum" style="color:#ffffff">0</span></div>
 			</div>
 			<button class="btn_submit" id="submit">Check Solution</button>&nbsp;&nbsp;
 			<button class="btn_clear" id="clear">Try Again</button>
@@ -89,32 +90,28 @@ $boardMatrix = $boardController->boardAction();
 	
 	// delegate click event
 	$('#submit').on("click", function(event) {
-		// event.preventDefault;
+		
 		getTableData();
+		clickCounter();
 		
 		var jsonStr = mapToJson(solve, solve.size);
-		console.log("board solution: " + jsonStr);
 		
 		if( jsonStr.length > 0 ) {
 			$.ajax({
 				url: "checkSolution.php",
-				// url: "/solution",
 				method: "get",
 				dataType: "json",
 				data: {Trial:jsonStr},
 				
 				success: function(results) {
-			        var posts = JSON.parse(results);
-			        console.log(results);
-			        $.each(posts, function() {
-			            $('#result').append( $('<option></option>').text(this.name).val(this.id) );
-			        });
+				  var res = JSON.parse(results);
+			      $('#result')
+			      	.append( $('span.message').text(res.message) )
 			    },
 			    
 			    error: function() {
 			        console.log('Cannot retrieve data.');
 			    }
-			    
 			});
 			
 		} else {
@@ -169,5 +166,24 @@ $boardMatrix = $boardController->boardAction();
 		return jstring;
 	}
 	
-  	});
+	
+	/*
+	 * increment trials by adding one for each try
+	 */
+	function clickCounter() {
+		document.getElementById("tt").innerHTML = counter();
+		
+	}
+	
+	
+	/*
+	 * increment counter
+	 */
+	 var counter = ( function() {
+		 var count = 0;
+		 return function() { return count =+ 1; }
+		 
+	 })();
+	
+  });
  </script>

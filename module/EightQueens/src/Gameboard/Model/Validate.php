@@ -32,10 +32,11 @@ class Validate
     
     /**
      * @method validateSolution
-     * interface method for validating the puzzle soltion. 
+     * interface method for validating the submitted solution.
+     * Called from Solution->checkSolution method. 
      * 
-     * @return mixed QueenSort array if captured queens exists,
-     * * * Success string if no queens were captured and no errors thrown
+     * @return mixed QueenSort array of captured queens or string 
+     * if no queens were captured positions and no errors thrown
      */
     public function validateSolution() {
         

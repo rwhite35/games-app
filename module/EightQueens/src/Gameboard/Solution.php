@@ -79,8 +79,8 @@ class Solution extends Board
         $res        = [];   // result from Validate->validateSolution methods
         $resultArr  = [
             "status"   => "ok",
-            "message"    => "",
-            "captured"  => []   
+            "message"  => "",
+            "captured" => []   
         ]; 
         
         /* Outer loop over each Queen. Only loops over each Queen once
@@ -115,17 +115,17 @@ class Solution extends Board
         
         
         /* now that all queens have a complete data sets, 
-         * validate the submitted solution 
+         * check the queens and return the  
          */
         $this->ValidateSolution->setProofs( $this->Proofs );  
         $res = $this->ValidateSolution->validateSolution();
         
-            if ( is_array( $res ) ) {   // solution fails, queens were captured.
+            if ( is_array( $res ) ) {   // failed, queens were captured.
                 $resultArr['captured']  = $res;
                 
-            } else if ( is_string( $res ) ) { // solution is correct, puzzle solved
-                $resultArr['success']   = true; 
+            } else if ( is_string( $res ) ) { // success, puzzle solved
                 $resultArr['message']   = $res;
+                
             }
         
         /* the calling class is responcible for error checking and 

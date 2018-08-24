@@ -30,7 +30,8 @@ class BoardController extends Board
     public function boardAction()
     {
         $matrix = $this->Board->boardMatrix();
-        return $matrix;   
+        return $matrix;
+        
     }
     
     
@@ -40,16 +41,22 @@ class BoardController extends Board
      * expects an indexed array of associative arrays see prototype.
      * instantiates the Solutions class which test the submitted solution
      *  
-     * @param array $get JSON object passed in from view
+     * @param array $get JSON input from users submission
      * proto: Array( [0] => Array([queens] => Q106,Q107,Q108, [spaces] => AQ,AW,BH) )
      * 
-     * @return string
+     * @return array $resultArr, output check process result and UI feedback
+     * proto Array = [ status=>string, message=>string, captured=>[array|empty] ] 
      */
     static public function submitAction( array $get )
     {
         $trialArray = json_decode( $get['Trial'], true );
         $resultArr  = [];
         $json       = "";
+        $exclamation = [ 
+            "Bummer!", "Nards!", "Uh Oh!", "Dang!", "Whaa!", "Donno But!", "Shazam!"
+        ];
+            
+        
         
         try {
             
@@ -61,9 +68,16 @@ class BoardController extends Board
                     $trialArray[0]['spaces']             // string "A,B,C..."
                 );
                 
-                // test this puzzle solution
+                /* check solution for solve */
                 $resultArr = $submitSolution->checkSolution();
-                // $json = json_encode($resultArr);
+                
+                /* provide some additional feedback */
+                if ( !empty( $resultArr['captured'] ) ) {
+                    $i = array_rand($exclamation, 1);
+                    $qc = 2 * count( $resultArr['captured'] );
+                    $resultArr['message'] = $exclamation[$i] .
+                        " Looks like $qc Queens are captured.";
+                }
                  
             } else {
                 throw new Exception( "Submit Action Error:" .
@@ -72,13 +86,16 @@ class BoardController extends Board
             }
             
         } catch( Exception $e ) {
-            $mes = $e->getMessage(); 
-            error_log( $mes );
-            return $mes;
+            $resultsArr = [
+                'status'    => "500",
+                'message'   =>  $e->getMessage()
+            ];
             
         }
         
-        return json_encode($resultArr);
+        // return json_encode($resultArr);
+        // pushed encoding back to endpoint script. 
+        return $resultArr;
         
     }
     

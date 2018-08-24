@@ -10,7 +10,7 @@ table, tr, td { border: 1px solid black; text-align:center }
 
 .stats { position: relative; width:450px; height:55px; padding-left: 165px; }
 .snum { font-size:39px; border: 0pt solid black }
-.box { float:left; margin-left; 1em; margin-right: 1em }
+.box { float:left; margin-left: 1em; margin-right: 1em }
 .hearts { padding-top: 7px; padding-left: 18px; width: 41px; height: 46px; border: 0pt solid black }
 .spades { padding-top: 7px; padding-left: 18px; width: 41px; height: 46px; border: 0pt solid black }
 
