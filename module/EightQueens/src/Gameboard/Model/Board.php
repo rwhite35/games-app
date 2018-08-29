@@ -16,16 +16,30 @@ class Board
     public static $YMax = 8;
     
     /**
+     * Exclamations
+     * silly string expletives to "humanizing" the game.
+     */
+    public static $Exclamations = [
+        "Bummer!", 
+        "Nards!", 
+        "Uh Oh!", 
+        "Dawg!", 
+        "Whaa!", 
+        "Donno But!", 
+        "Shazam!"
+    ];
+    
+    /**
      * Square
      * Board squares
      */
     public $Squares;
     
     /**
-     * ConstaintParams
+     * ConstraintParams
      * Conditions to satisfy 
      */
-    public $ConstaintParams;
+    public $ConstraintParams;
     
     /**
      * Square Ids
@@ -43,7 +57,7 @@ class Board
         ];
         
         $this->SquareIds = [];
-        $this->ConstaintParams = [];
+        $this->ConstraintParams = [];
         
     }
     

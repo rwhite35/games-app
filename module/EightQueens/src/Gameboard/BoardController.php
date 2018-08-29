@@ -42,21 +42,18 @@ class BoardController extends Board
      * instantiates the Solutions class which test the submitted solution
      *  
      * @param array $get JSON input from users submission
-     * proto: Array( [0] => Array([queens] => Q106,Q107,Q108, [spaces] => AQ,AW,BH) )
+     * * proto: Array( [0] => Array(
+     * * *  [queens] => Q101,..,Q108, [spaces] => AQ,..,BH, [time] => 00:00:00 ) )
      * 
      * @return array $resultArr, output check process result and UI feedback
-     * proto Array = [ status=>string, message=>string, captured=>[array|empty] ] 
+     * * proto Array = [ status=>string, message=>string, captured=>[array|empty] ] 
      */
     static public function submitAction( array $get )
     {
         $trialArray = json_decode( $get['Trial'], true );
         $resultArr  = [];
         $json       = "";
-        $exclamation = [ 
-            "Bummer!", "Nards!", "Uh Oh!", "Dang!", "Whaa!", "Donno But!", "Shazam!"
-        ];
-            
-        
+        $exclamation = Board::$Exclamations;        // Model\Board property
         
         try {
             
@@ -64,9 +61,18 @@ class BoardController extends Board
                 
                 $submitSolution = new Solution();
                 $submitSolution->setSolutionQueens(
-                    $trialArray[0]['queens'],            // string "Q101,Q102,Q103..."
-                    $trialArray[0]['spaces']             // string "A,B,C..."
+                    $trialArray[0]['queens'],       // string "Q101,Q102,Q103..."
+                    $trialArray[0]['spaces'],       // string "A,B,C..."
+                    $trialArray[0]['time'],         // string "00:00:35"
+                    $trialArray[0]['uuid']          // string "4560...aaf25"
                 );
+                
+                /* insert record in to db */
+                error_log( __LINE__ .": submitAction player " .
+                    "with UUID " . $trialArray[0]['uuid'] . " solved puzzle " .
+                        "in " . $trialArray[0]['time'] . " for the " .
+                        "spaces " . $trialArray[0]['spaces'] . " and " .
+                        "trial count " . $trialArray[0]['trial'] );
                 
                 /* check solution for solve */
                 $resultArr = $submitSolution->checkSolution();
@@ -74,7 +80,7 @@ class BoardController extends Board
                 /* provide some additional feedback */
                 if ( !empty( $resultArr['captured'] ) ) {
                     $i = array_rand($exclamation, 1);
-                    $qc = 2 * count( $resultArr['captured'] );
+                    $qc = count( $resultArr['captured'] );
                     $resultArr['message'] = $exclamation[$i] .
                         " Looks like $qc Queens are captured.";
                 }
@@ -93,7 +99,6 @@ class BoardController extends Board
             
         }
         
-        // return json_encode($resultArr);
         // pushed encoding back to endpoint script. 
         return $resultArr;
         

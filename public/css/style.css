@@ -8,12 +8,71 @@ p { font-size: 16px; font-style: normal; font-variant: normal; font-weight: 400;
 table { width:450px; height:450px }
 table, tr, td { border: 1px solid black; text-align:center }
 
-.stats { position: relative; width:450px; height:55px; padding-left: 165px; }
+.stats { position: relative; width:600px; height:70px; padding-top:5px; padding-left: 3%; }
 .snum { font-size:39px; border: 0pt solid black }
 .box { float:left; margin-left: 1em; margin-right: 1em }
 .hearts { padding-top: 7px; padding-left: 18px; width: 41px; height: 46px; border: 0pt solid black }
 .spades { padding-top: 7px; padding-left: 18px; width: 41px; height: 46px; border: 0pt solid black }
+span.message {font-size:18px; font-weight:600; color: #5daadd;}
 
-.tray { position: absolute; top: 0px; left: 485px; width: 56px; height: 450px; background-color: #725c5c; border: 2px solid grey }
-.tiles { position: absolute }
+.tray { 
+    position: absolute; 
+    top: 0px; 
+    left: 485px; 
+    width: 56px; 
+    height: 450px; 
+    background-color: #725c5c; 
+    border: 2px solid grey 
+}
 .queens { width: 56px; height: 56px }
+.tiles { position: absolute }
+.highlight {
+    position: absolute;
+    display: block;
+    width: 55px;
+    height: 56px;
+    background-color: red;
+    opacity: 1.0;
+    animation: pulse 0.7s infinite;
+    
+    /*
+    -webkit-animation: fadeInFromNone 0.5s ease-out;
+    -moz-animation: fadeInFromNone 0.5s ease-out;
+    -o-animation: fadeInFromNone 0.5s ease-out;
+    animation: fadeInFromNone 0.5s ease-out;
+    */
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #001F3F;
+  }
+  100% {
+    background-color: #FF4136;
+  }
+}
+/*
+@-webkit-keyframes fadeInFromNone {
+    0% { display: none; opacity: 0; }
+    1% { display: block; opacity: 0; }
+    100% { display: block; opacity: 1; }
+}
+
+@-moz-keyframes fadeInFromNone {
+    0% { display: none; opacity: 0; }
+    1% { display: block; opacity: 0; }
+    100% { display: block; opacity: 1; }
+}
+
+@-o-keyframes fadeInFromNone {
+    0% { display: none; opacity: 0; }
+    1% { display: block; opacity: 0; }
+    100% { display: block; opacity: 1; }
+}
+
+@keyframes fadeInFromNone {
+    0% { display: none; opacity: 0; }
+    1% { display: block; opacity: 0; }
+    100% { display: block; opacity: 1; }
+}
+*/
