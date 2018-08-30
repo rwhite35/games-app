@@ -147,29 +147,34 @@ $boardMatrix = $boardController->boardAction();
 		</footer>
 	</body>
 </html>
-<!-- instantiate Timer class -->
+<!-- 
+    instantiate Timer class 
+-->
 <script type="text/javascript" src="js/Timer.js"></script>
-<!-- process puzzle solution -->
+
+<!-- 
+    process puzzle solution 
+-->
 <script>
-  	$(document).ready(function () {
+$(document).ready(function () {
  	
+  	const solve = new Map();	// requires ES6
+  	
   	/* stop timer on initial page load */
   	$("#stop").trigger("click");
   	$("#clear").trigger("click");
 	
-	/* ES6 Map (similar to Java) */
-	const solve = new Map();
-	
-	// delegate click event
+	/* on submit, collect gameboard data and 
+	 * pass JSON to checkSolution endpoint */
 	$('#submit').on("click", function(event) {
 		
-		// stop Timer on submit click
+		/* stop Timer on submit */
 		$("#stop").trigger("click");
 		
 		getTableData();
-		clickCounter();
+		puzzleControls.clickCounter();
 		
-		var jsonStr = mapToJson(solve, solve.size);
+		var jsonStr = puzzleControls.mapToJson(solve, solve.size);
 		
 		if( jsonStr.length > 0 ) {
 			$.ajax({
@@ -180,17 +185,22 @@ $boardMatrix = $boardController->boardAction();
 				
 				success: function(results) {
 					alert(results.response.message);
+					
 					if( results.response.hasOwnProperty('captured') ) {
-			    	  	appendHighlight(results.response.captured);
+						puzzleControls.appendHighlight(
+			    	  			results.response.captured
+			    	  		);
 			    	  }
 			    },
 			    error: function() {
 			        console.log('Cannot retrieve data.');
+			        
 			    }
 			});
 			
 		} else {
-				console.log( "json had no length or was null" );
+			console.log( "Error: jsonStr had no length or was null!" );
+			
 		}
 	
 	});
@@ -198,17 +208,20 @@ $boardMatrix = $boardController->boardAction();
 	
 	/*
 	 * getTableData
-	 * eval each gameboard td for a queen and assign 
-	 * the queens id and space id to the solve Map.
-	 * @return void
+	 * collect gameboard data for testing the submitted solution.
+	 * uses puzzleControls.gbdataset prototype
+	 * * which defines solve map key string. 
+	 * * Also note order [ "queens", "spaces", "time", "trial", "uuid" ]
 	 */
 	function getTableData() {
 		var queens = [];
 		var spaces = [];
+		var skeys = puzzleControls.gbdataset;
+			
 		var trial = $('span#tt').text();
 		var time = $('h2#timer').text();
 		var td = $('tbody tr').find('td');
-		var uuid = localStorage.getItem('EightQueens');
+		var uuid = window.localStorage.getItem('EightQueens');
 		
 		td.each(function() {
 			var hasImg = $('img',this).length > 0;
@@ -218,72 +231,13 @@ $boardMatrix = $boardController->boardAction();
 			}
 		});
 		
-		// assign arrays to solve Map
-		solve.set( 'queens', queens );
-		solve.set( 'spaces', spaces );
-		solve.set( 'time', time );
-		solve.set( 'trial', trial );
-		solve.set( 'uuid', uuid );
+		// assign arrays to solve Map, note the order
+		solve.set( skeys[0], queens );		// queens ids "Q101,Q102,..Q108"
+		solve.set( skeys[1], spaces );		// occupied spaces "A,J...BE"
+		solve.set( skeys[2], time );		// timer "00:01:30"
+		solve.set( skeys[3], trial );		// num if trials "2"
+		solve.set( skeys[4], uuid );		// UUID "4560b...aaf25"
 	}
 	
-	
-	/*
-	* mapToJson
-	* convert Map object to JSON string
-	* @return string
-	*/
-	function mapToJson(map, count) {
-		var jstring = "[{";
-		// var jstring = "";
-		var i=1;
-		
-		map.forEach( (value, key) => {
-			jstring += `"${key}":"${value}"`;
-			
-			if(i < count) jstring += ",";
-			i++;
-		});
-		jstring += "}]";
-		return jstring;
-	}
-	
-	/*
-	 * appendHighlight
-	 * key:value pairs represents the captured "good Queen":"evil Queen".
-	 * param captured = {"Q103":"Q107","Q107":"Q103","Q102":"Q106"}
-	 */
-	 function appendHighlight(captured) {
-		for (var key in captured) {
-		    if ( captured.hasOwnProperty(key) ) {
-		         let goodQueen = $("div#" + key); // block scoped
-		         let evilQueen = $("div#" + captured[key]); // block scoped
-		         console.log( "Good Queen ID " + goodQueen.val() + 
-		        		 ", Evil Queen ID " + evilQueen.val() );
-		         
-		         goodQueen.addClass('highlight');
-		         evilQueen.addClass('highlight');
-		    }
-		}
-	}
-	
-	
-	/*
-	 * increment trials by adding one for each try
-	 */
-	function clickCounter() {
-		document.getElementById("tt").innerHTML = counter();
-		
-	}
-	
-	
-	/*
-	 * increment counter
-	 */
-	 var counter = ( function() {
-		 var count = 0;
-		 return function() { return count =+ 1; }
-		 
-	 })();
-	
-  });
- </script>
+});
+</script>

@@ -27,7 +27,7 @@ if ( $boardController instanceof BoardController ) {
     $payload['response'] = $boardController->submitAction( $_GET );
 
     ob_start();
-    echo "checkSolution endpoint string: ";
+    echo "checkSolution endpoint array: ";
     print_r( $payload['response'] );
     $str = ob_get_clean();
     error_log($str);
