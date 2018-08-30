@@ -1,13 +1,18 @@
 /**
  * Puzzle Class
+ * An OO JavaScript class for managing EightQueens functionality.
+ * This abstracts out elements (like UUID, buttons, etc) so 
+ * it can be extended from other games with similar requirements.
+ * 
  * @version 1.0.1
  * @since 20180829
+ * @property {prototype} gbdataset, defined Map keys for
+ * * dataset payload both as request and response.
  * 
- * An OOJS class for managing EightQueens games functionality.
- * This abstracts out elements (like UUID, buttons, etc) so 
- * it can be used for other games with similar requirements.
+ * @property {object} timestamp, instance of Date object called on
+ * * new page load.
  * 
- * controls request/response handling.
+ * @property {string} UUID, value of UUID
  */
 class Puzzle
 {
@@ -69,7 +74,8 @@ class Puzzle
 			created = true;
 		}
 		
-		// if validation is required, add it here.
+		// additional validation here.
+		
 		return created;
 		
 	}
@@ -81,6 +87,7 @@ class Puzzle
 	 */
 	checkUuidFreshness(timestamp)
 	{
+		// stubbed for later development
 		console.log( "The current date/timestamp is " + timestamp );
 	}
 	
@@ -148,6 +155,7 @@ class Puzzle
 	 */
 	appendHighlight( captured ) 
 	{
+		
 		for (var key in captured) {
 		    if ( captured.hasOwnProperty(key) ) {
 		         let goodQueen = $("div#" + key);
@@ -155,6 +163,7 @@ class Puzzle
 		         goodQueen.addClass('highlight');
 		         evilQueen.addClass('highlight');
 		    }
+		    
 		}
 		
 	}

@@ -77,7 +77,9 @@ class BoardController extends Board
                 /* check solution for solve */
                 $resultArr = $submitSolution->checkSolution();
                 
-                /* provide some additional feedback */
+                /* provide some additional feedback when the solution fails. 
+                 * If successful [captured] is empty and a success message
+                 * sent from Solution > Validate->validateSolution is passed */
                 if ( !empty( $resultArr['captured'] ) ) {
                     $i = array_rand($exclamation, 1);
                     $qc = count( $resultArr['captured'] );

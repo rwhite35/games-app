@@ -114,7 +114,8 @@ class Solution extends Board
         } // close outer foreach queen
         
         
-        /* now that all queens have a complete data sets, 
+        /* 
+         * now that all queens have a complete data sets, 
          * check the queens and return the  
          */
         $this->ValidateSolution->setProofs( $this->Proofs );  
@@ -292,14 +293,16 @@ class Solution extends Board
      * @param string $spaces, comma delimited list of Queens square id
      * @param string $time, the hh:mm:ss time interval it took to solve
      */
-    public function setSolutionQueens( string $queens, string $spaces, string $time )
-    {
-        $this->Proofs = [
-            'queens'  => $queens,
-            'spaces'  => $spaces,
-            'time'    => $time
-        ];
+    public function setSolutionQueens( string $queens, string $spaces, 
+        string $time, string $uuid ) {
         
+            $this->Proofs = [
+                'queens'  => $queens,
+                'spaces'  => $spaces,
+                'time'    => $time,
+                'uuid'    => $uuid
+            ];
+            
     }
     
     

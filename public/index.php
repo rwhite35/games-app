@@ -31,27 +31,28 @@ $boardMatrix = $boardController->boardAction();
 			
 			function setupNewPuzzle()
 			{
-				// new instance of the timer
+				/* set a new timestamp */
 				if ( !puzzleControls.hasOwnProperty('timerstart') )
 					Object.defineProperty( puzzleControls, 'timerstart', {
 						value: puzzleControls.loadedOn(),
 						writable: true,
 					});
 				
-				// instance of UUID
+				/* handle UUID */
 				if ( puzzleControls.hasOwnProperty('uuid') ) {
 					
-				} else {
+					// stubbed for freshness check and validation
+					
+				} else { // new player, set UUID
 					puzzleControls.checkUserId()
 					Object.defineProperty( puzzleControls, 'uuid', {
 						value: puzzleControls.getUuid(),
 						writable: false,
 					} );	
-				}
-				
+				}	
 			}
 			
-			
+			/* enable drap and drop functionality */
 			function allowDrop(ev) {
 		    	ev.preventDefault();
 		    	
@@ -61,25 +62,22 @@ $boardMatrix = $boardController->boardAction();
 		    	ev.dataTransfer.setData("text", ev.target.id);
 		    	
 			}
-
+			
+			/* starts timer on first queen dropped */
 			function drop(ev) {
 		    	ev.preventDefault();
 		    	var data = ev.dataTransfer.getData("text");
 		    	ev.target.appendChild(document.getElementById(data));
 		    	
 		    	if ( !dragQueen.hasOwnProperty('first') ) {
-		    		// start the timer
-		    		$("#start").trigger("click");
+		    		$("#start").trigger("click"); // starts timer
 		    		
-		    		// set the first queen
 		    		Object.defineProperty( dragQueen, 'first', {
 		    			value: data,
 		    			writable: false,
 					});
-		    	}
-		    	
+		    	}	
 			}
-			
 		</script>
 		
 		<style type="text/css">
@@ -148,7 +146,7 @@ $boardMatrix = $boardController->boardAction();
 	</body>
 </html>
 <!-- 
-    instantiate Timer class 
+    instantiate Timer object 
 -->
 <script type="text/javascript" src="js/Timer.js"></script>
 

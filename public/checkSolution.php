@@ -22,17 +22,8 @@ $payload = [
     'response'      => []
 ];
 
-if ( $boardController instanceof BoardController ) {
-
+if ( $boardController instanceof BoardController )
     $payload['response'] = $boardController->submitAction( $_GET );
-
-    ob_start();
-    echo "checkSolution endpoint array: ";
-    print_r( $payload['response'] );
-    $str = ob_get_clean();
-    error_log($str);
-    
-}
 
 $json = json_encode( $payload );
 error_log($json);
