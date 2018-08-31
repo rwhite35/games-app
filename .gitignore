@@ -1,10 +1,24 @@
+# ignore IDE specific resources
 .DS_Store
 .buildpath
 .project
 .settings
+
+# template htaccess is included in public
+public/.htaccess
+
+# package managers lock files generated on 
+# install. Dont include in project.
 composer.lock
 package-lock.json
+
+# ignore any config not under 
+# modules/EightQueens
 config
+!module/EightQueens/*
+
+# ignore any data folder, node_modules or
+# any other vendor specific resource.
 data
 node_modules
 vendor/symfony
