@@ -4,7 +4,22 @@ footer { margin-left:2%; margin-top:2% ; border: 0pt solid black }
 h3 { font-size: 24px; font-style: normal }
 p { font-size: 16px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 20px }
 
+/*
 .container { position: relative; width: 85%; height: 85%; margin-left:2% }
+*/
+
+/* GAMEBOARD
+-------------------------------------------------- */
+
+/* Center align the text within the three columns below the carousel */
+.gameboard .col-md-2 {
+  margin: 10px;
+}
+.gameboard .col-md-8 p h3 {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
 table { width:450px; height:450px }
 table, tr, td { border: 1px solid black; text-align:center }
 

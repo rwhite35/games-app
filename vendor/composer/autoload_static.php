@@ -42,6 +42,7 @@ class ComposerStaticInitb66e9184b492d42c3e215f8bb8880ca5
         'EightQueens\\Gameboard\\Controller\\BoardController' => __DIR__ . '/../..' . '/module/EightQueens/src/Gameboard/BoardController.php',
         'EightQueens\\Gameboard\\Model\\Board' => __DIR__ . '/../..' . '/module/EightQueens/src/Gameboard/Model/Board.php',
         'EightQueens\\Gameboard\\Model\\Validate' => __DIR__ . '/../..' . '/module/EightQueens/src/Gameboard/Model/Validate.php',
+        'EightQueens\\Gameboard\\Module' => __DIR__ . '/../..' . '/module/EightQueens/src/Gameboard/config/local.php',
         'EightQueens\\Gameboard\\Solutions\\Solution' => __DIR__ . '/../..' . '/module/EightQueens/src/Gameboard/Solution.php',
         'Symfony\\Component\\ClassLoader\\ApcClassLoader' => __DIR__ . '/..' . '/symfony/class-loader/ApcClassLoader.php',
         'Symfony\\Component\\ClassLoader\\ClassCollectionLoader' => __DIR__ . '/..' . '/symfony/class-loader/ClassCollectionLoader.php',

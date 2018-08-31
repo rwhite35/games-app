@@ -11,6 +11,7 @@ return array(
     'EightQueens\\Gameboard\\Controller\\BoardController' => $baseDir . '/module/EightQueens/src/Gameboard/BoardController.php',
     'EightQueens\\Gameboard\\Model\\Board' => $baseDir . '/module/EightQueens/src/Gameboard/Model/Board.php',
     'EightQueens\\Gameboard\\Model\\Validate' => $baseDir . '/module/EightQueens/src/Gameboard/Model/Validate.php',
+    'EightQueens\\Gameboard\\Module' => $baseDir . '/module/EightQueens/src/Gameboard/config/local.php',
     'EightQueens\\Gameboard\\Solutions\\Solution' => $baseDir . '/module/EightQueens/src/Gameboard/Solution.php',
     'Symfony\\Component\\ClassLoader\\ApcClassLoader' => $vendorDir . '/symfony/class-loader/ApcClassLoader.php',
     'Symfony\\Component\\ClassLoader\\ClassCollectionLoader' => $vendorDir . '/symfony/class-loader/ClassCollectionLoader.php',

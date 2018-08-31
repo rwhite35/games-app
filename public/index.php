@@ -19,12 +19,31 @@ $boardMatrix = $boardController->boardAction();
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Eight Queens</title>
-		<link rel="stylesheet" type="text/css" href="css/style.css">
-		<script type="text/javascript" src="js/jquery/dist/jquery.js"></script>
-		<!-- instantiate Puzzle class -->
-		<script type="text/javascript" src="js/Puzzle.js"></script>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+    	<title>Eight Queens</title>
+		<!-- 
+		  The above 3 meta tags *must* come first in the head; 
+		  any other head content must come *after* these tags 
+		-->
 		
+		<!-- Bootstrap core CSS and Style sheets -->
+    	<link href="js/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    	<link rel="stylesheet" type="text/css" href="css/style.css">
+    	<!-- Robohabilis specific style -->
+    	<link href="../../carousel.css" rel="stylesheet">
+    	
+    	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    	
+    	<!-- 
+    	   load JavaScript resources and Puzzle class 
+    	-->
+		<script type="text/javascript" src="js/jquery/dist/jquery.js"></script>
+		<script type="text/javascript" src="js/Puzzle.js"></script>
 		<script>
 			const dragQueen = new Object();
 			const puzzleControls = new Puzzle();
@@ -80,6 +99,11 @@ $boardMatrix = $boardController->boardAction();
 			}
 		</script>
 		
+		<!-- 
+		  Define inline style for content that didnt exist on initial page load
+		  mainly the gameboard is dynamically generated on each page load.
+		  this saves having to append styles after the fact. 
+		-->
 		<style type="text/css">
 		  .tray { background-image: url("img/tray_sm.png") }
 		  .Atile { background-image: url("img/btile_sm.png") }
@@ -106,55 +130,100 @@ $boardMatrix = $boardController->boardAction();
 	</head>
 	<body onload="setupNewPuzzle()">
 	
-		<header>
-			<div style="padding-left:30px">
-				<h3><img src="img/clubs.png" alt="Clubs" height=25px>
-				Solve the Eight Queens Puzzle
-				<img src="img/diamonds.png" alt="Diamonds" height=25px></h3>
-			</div>
-			<p>Place each Queen on gameboard so they are not captured by another Queen.<br>
-				A Queen moves in all directions including diagonal to capture her enemies.<br>
-				
-				<!--
-				<span class="hint"><a href="#" id="4hint">Need A Hint?</a></span>
-				<span style="visibility:hidden">Each row and column would only have one Queen.</span>
-				-->
-				
-			</p>
-		</header>
-		
+	<!-- NAVBAR ==============================================//-->
+	<header>
+	  <div class="navbar-wrapper">
 		<div class="container">
-				<?php include 'module/EightQueens/view/gameboard/board.php'?>
+		  	<nav class="navbar navbar-inverse navbar-static-top">
+          	  <div class="container">
+              <div class="navbar-header">
+               	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                	<span class="sr-only">Toggle navigation</span>
+                	<span class="icon-bar"></span>
+                	<span class="icon-bar"></span>
+                	<span class="icon-bar"></span>
+               	</button>
+              	<a class="navbar-brand" href="#">robohabilis</a>
+             </div>
+             <div id="navbar" class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                	<li class="active"><a href="#">home</a></li>
+                	<li><a href="about/">about</a></li>
+                	<li><a href="contact/">contact</a></li>
+              </ul>
+            </div>
+           </div>
+         </nav>
+       </div>
+      </div>
+    </header>
+	
+	<!-- Main Content Wrapper ===================================//-->
+	
+	<div class="container gameboard">
+		<div class="row featurette">
+			<div class="gameboard col-md-2"></div>
+			<div class="gameboard col-md-8">
+				<h3>
+					<img src="img/clubs.png" alt="Clubs" height=25px>
+					Solve the Eight Queens Puzzle
+					<img src="img/diamonds.png" alt="Diamonds" height=25px>
+				</h3>
+				<p>Place each Queen on gameboard so they are not captured by another Queen.<br>
+				A Queen moves in all directions including diagonal to capture her enemies.
+				</p>
+			</div>
+			<div class="gameboard col-md-2"></div>
 		</div>
 		
-		<div id="result"><span class="message"></span></div>
+		<!-- Gameboard -->
+		<div class="row featurette">
+			<div class="gameboard col-md-2"></div>
+			<div class="gameboard col-md-8">
+				<?php include 'module/EightQueens/view/gameboard/board.php'?>
+			</div>
+			
+			<div id="result"><span class="message"></span></div>
+			<div class="gameboard col-md-2"></div>
+		</div>
 		
-		<footer>
-			<div class="stats">
-				<button class="btn_submit box" type="submit" id="submit">&nbsp;</button>
-				<div class="hearts box"><span id="tt" class="snum">0</span></div>
-				<div class="spades box"><span id="ss" class="snum" style="color:#ffffff">0</span></div>
-				<button class="btn_tryagain box" type="reset" id="reset">&nbsp;</button>
+		<!-- Button Controls -->
+		<div class="row featurette">
+			<div class="col-md-2"></div>
+			<div class="col=md-8">
+				<div class="stats">
+					<button class="btn_submit box" type="submit" id="submit">&nbsp;</button>
+					<div class="hearts box"><span id="tt" class="snum">0</span></div>
+					<div class="spades box"><span id="ss" class="snum" style="color:#ffffff">0</span></div>
+					<button class="btn_tryagain box" type="reset" id="reset">&nbsp;</button>
+				</div>
+				<div class="timer_btn">
+					<h2 id="timer"><time>00:00:00</time></h2>
+					<button id="start">start</button>
+					<button id="stop">stop</button>
+					<button id="clear">clear</button>
+				</div>
 			</div>
-			<div>
-				<h2 id="timer"><time>00:00:00</time></h2>
-				<button id="start">start</button>
-				<button id="stop">stop</button>
-				<button id="clear">clear</button>
-			</div>
-		</footer>
-	</body>
+			<div class="col-md-2"></div>
+		</div>
+		<!-- 
+		  Close Main Content Wrapper 
+		 -->
+	  </div> 
+	<footer>
+        <p class="pull-right"><a href="#">Back to top</a></p>
+        <p>&copy; 2016 - <script>document.write(new Date().getFullYear())</script> robohabilis.com &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+  	</footer>
+  	
+  </body>
 </html>
-<!-- 
-    instantiate Timer object 
--->
-<script type="text/javascript" src="js/Timer.js"></script>
 
 <!-- 
-    process puzzle solution 
+    instantiate Timer object and Request/Response AJAX  
 -->
+<script type="text/javascript" src="js/Timer.js"></script>
 <script>
-$(document).ready(function () {
+  $(document).ready(function () {
  	
   	const solve = new Map();	// requires ES6
   	
