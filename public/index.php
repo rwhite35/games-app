@@ -112,6 +112,14 @@ $boardMatrix = $boardController->boardAction();
         .hearts { background-image: url("img/hearts.png"); background-size: 57px; }
         .spades { background-image: url("img/spades.png"); background-size: 57px; }
         .Btile { background-color: #eceaea }
+        .clock { 
+            padding-top:4px;
+            width:140px;
+            text-align:center;
+            border:1pt solid grey; 
+            border-radius:3px;
+            background-color:#D3EBED 
+         }
         #result { margin-left:10% }
         .btn_submit {
             border:none;
@@ -133,6 +141,7 @@ $boardMatrix = $boardController->boardAction();
 <body onload="setupNewPuzzle()">
 
 <!-- NAVBAR ==============================================//-->
+
 	<div class="navbar-wrapper">
 		<div class="container">
 			<nav class="navbar navbar-inverse navbar-static-top">
@@ -153,9 +162,9 @@ $boardMatrix = $boardController->boardAction();
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
-						<li class="active"><a href="#">home</a></li>
-						<li><a href="about/">about</a></li>
-						<li><a href="contact/">contact</a></li>
+						<li class="active"><a href="http://robohabilis.com">home</a></li>
+						<li><a href="../../about/">about</a></li>
+						<li><a href="../../contact/">contact</a></li>
 					</ul>
 				</div>
 				</div>
@@ -171,7 +180,7 @@ $boardMatrix = $boardController->boardAction();
 		<div class="row featurette">
 			<div class="gameboard col-md-3"></div>
 			<div class="gameboard col-md-8">
-				<h3>
+				<h3 style="padding-left:70px">
 					<img src="img/clubs.png" alt="Clubs" height=25px>
 					Solve the Eight Queens Puzzle
 					<img src="img/diamonds.png" alt="Diamonds" height=25px>
@@ -187,12 +196,11 @@ $boardMatrix = $boardController->boardAction();
 		<div class="row featurette">
 			<div class="gameboard col-md-3 timer-box">
 				<div class="timer_btn">
-					<h2 id="timer"><time>00:00:00</time></h2>
+					<h2 id="timer" class="clock"><time>00:00:00</time></h2>
 					<button id="start">start</button>
 					<button id="stop">stop</button>
 					<button id="clear">clear</button>
 				</div>
-				
 			</div>
 			<div class="gameboard col-md-8">
 				<?php include 'module/EightQueens/view/gameboard/board.php'?>
@@ -206,7 +214,7 @@ $boardMatrix = $boardController->boardAction();
 		<div class="row featurette">
 			<div class="col-md-3">&nbsp;</div>
 			<div class="col-md-8">
-				<div class="stats boarder">
+				<div class="stats">
 					<button class="btn_submit box" type="submit" id="submit">&nbsp;</button>
 					<div class="hearts box"><span id="tt" class="snum">0</span></div>
 					<div class="spades box"><span id="ss" class="snum" style="color:#ffffff">0</span></div>
