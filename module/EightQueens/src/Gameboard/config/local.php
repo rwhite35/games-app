@@ -1,5 +1,16 @@
 <?php
 namespace EightQueens\Gameboard;
+/**
+ * Gameboard Module class is the first class loaded when the 
+ * game is bootstrapped on laoding index.  Module class
+ * defines global configurations and establishes a cache
+ * for persistent data with a Time To Live of 3600 seconds or 1 hour.
+ * 
+ * Caching is handled through Symfony Cache Component(4.0).  
+ * 
+ * @author ronwhite
+ *
+ */
 
 class Module
 {

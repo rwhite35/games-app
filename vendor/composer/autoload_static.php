@@ -9,7 +9,16 @@ class ComposerStaticInitb66e9184b492d42c3e215f8bb8880ca5
     public static $prefixLengthsPsr4 = array (
         'S' => 
         array (
+            'Symfony\\Contracts\\' => 18,
+            'Symfony\\Component\\VarExporter\\' => 30,
             'Symfony\\Component\\ClassLoader\\' => 30,
+            'Symfony\\Component\\Cache\\' => 24,
+        ),
+        'P' => 
+        array (
+            'Psr\\SimpleCache\\' => 16,
+            'Psr\\Log\\' => 8,
+            'Psr\\Cache\\' => 10,
         ),
         'E' => 
         array (
@@ -22,9 +31,33 @@ class ComposerStaticInitb66e9184b492d42c3e215f8bb8880ca5
     );
 
     public static $prefixDirsPsr4 = array (
+        'Symfony\\Contracts\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/contracts',
+        ),
+        'Symfony\\Component\\VarExporter\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/var-exporter',
+        ),
         'Symfony\\Component\\ClassLoader\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/class-loader',
+        ),
+        'Symfony\\Component\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/cache',
+        ),
+        'Psr\\SimpleCache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/simple-cache/src',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
+        'Psr\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
         'EightQueens\\' => 
         array (
@@ -44,6 +77,84 @@ class ComposerStaticInitb66e9184b492d42c3e215f8bb8880ca5
         'EightQueens\\Gameboard\\Model\\Validate' => __DIR__ . '/../..' . '/module/EightQueens/src/Gameboard/Model/Validate.php',
         'EightQueens\\Gameboard\\Module' => __DIR__ . '/../..' . '/module/EightQueens/src/Gameboard/config/local.php',
         'EightQueens\\Gameboard\\Solutions\\Solution' => __DIR__ . '/../..' . '/module/EightQueens/src/Gameboard/Solution.php',
+        'Psr\\Cache\\CacheException' => __DIR__ . '/..' . '/psr/cache/src/CacheException.php',
+        'Psr\\Cache\\CacheItemInterface' => __DIR__ . '/..' . '/psr/cache/src/CacheItemInterface.php',
+        'Psr\\Cache\\CacheItemPoolInterface' => __DIR__ . '/..' . '/psr/cache/src/CacheItemPoolInterface.php',
+        'Psr\\Cache\\InvalidArgumentException' => __DIR__ . '/..' . '/psr/cache/src/InvalidArgumentException.php',
+        'Psr\\Log\\AbstractLogger' => __DIR__ . '/..' . '/psr/log/Psr/Log/AbstractLogger.php',
+        'Psr\\Log\\InvalidArgumentException' => __DIR__ . '/..' . '/psr/log/Psr/Log/InvalidArgumentException.php',
+        'Psr\\Log\\LogLevel' => __DIR__ . '/..' . '/psr/log/Psr/Log/LogLevel.php',
+        'Psr\\Log\\LoggerAwareInterface' => __DIR__ . '/..' . '/psr/log/Psr/Log/LoggerAwareInterface.php',
+        'Psr\\Log\\LoggerAwareTrait' => __DIR__ . '/..' . '/psr/log/Psr/Log/LoggerAwareTrait.php',
+        'Psr\\Log\\LoggerInterface' => __DIR__ . '/..' . '/psr/log/Psr/Log/LoggerInterface.php',
+        'Psr\\Log\\LoggerTrait' => __DIR__ . '/..' . '/psr/log/Psr/Log/LoggerTrait.php',
+        'Psr\\Log\\NullLogger' => __DIR__ . '/..' . '/psr/log/Psr/Log/NullLogger.php',
+        'Psr\\Log\\Test\\DummyTest' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
+        'Psr\\Log\\Test\\LoggerInterfaceTest' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
+        'Psr\\SimpleCache\\CacheException' => __DIR__ . '/..' . '/psr/simple-cache/src/CacheException.php',
+        'Psr\\SimpleCache\\CacheInterface' => __DIR__ . '/..' . '/psr/simple-cache/src/CacheInterface.php',
+        'Psr\\SimpleCache\\InvalidArgumentException' => __DIR__ . '/..' . '/psr/simple-cache/src/InvalidArgumentException.php',
+        'Symfony\\Component\\Cache\\Adapter\\AbstractAdapter' => __DIR__ . '/..' . '/symfony/cache/Adapter/AbstractAdapter.php',
+        'Symfony\\Component\\Cache\\Adapter\\AdapterInterface' => __DIR__ . '/..' . '/symfony/cache/Adapter/AdapterInterface.php',
+        'Symfony\\Component\\Cache\\Adapter\\ApcuAdapter' => __DIR__ . '/..' . '/symfony/cache/Adapter/ApcuAdapter.php',
+        'Symfony\\Component\\Cache\\Adapter\\ArrayAdapter' => __DIR__ . '/..' . '/symfony/cache/Adapter/ArrayAdapter.php',
+        'Symfony\\Component\\Cache\\Adapter\\ChainAdapter' => __DIR__ . '/..' . '/symfony/cache/Adapter/ChainAdapter.php',
+        'Symfony\\Component\\Cache\\Adapter\\DoctrineAdapter' => __DIR__ . '/..' . '/symfony/cache/Adapter/DoctrineAdapter.php',
+        'Symfony\\Component\\Cache\\Adapter\\FilesystemAdapter' => __DIR__ . '/..' . '/symfony/cache/Adapter/FilesystemAdapter.php',
+        'Symfony\\Component\\Cache\\Adapter\\MemcachedAdapter' => __DIR__ . '/..' . '/symfony/cache/Adapter/MemcachedAdapter.php',
+        'Symfony\\Component\\Cache\\Adapter\\NullAdapter' => __DIR__ . '/..' . '/symfony/cache/Adapter/NullAdapter.php',
+        'Symfony\\Component\\Cache\\Adapter\\PdoAdapter' => __DIR__ . '/..' . '/symfony/cache/Adapter/PdoAdapter.php',
+        'Symfony\\Component\\Cache\\Adapter\\PhpArrayAdapter' => __DIR__ . '/..' . '/symfony/cache/Adapter/PhpArrayAdapter.php',
+        'Symfony\\Component\\Cache\\Adapter\\PhpFilesAdapter' => __DIR__ . '/..' . '/symfony/cache/Adapter/PhpFilesAdapter.php',
+        'Symfony\\Component\\Cache\\Adapter\\ProxyAdapter' => __DIR__ . '/..' . '/symfony/cache/Adapter/ProxyAdapter.php',
+        'Symfony\\Component\\Cache\\Adapter\\RedisAdapter' => __DIR__ . '/..' . '/symfony/cache/Adapter/RedisAdapter.php',
+        'Symfony\\Component\\Cache\\Adapter\\SimpleCacheAdapter' => __DIR__ . '/..' . '/symfony/cache/Adapter/SimpleCacheAdapter.php',
+        'Symfony\\Component\\Cache\\Adapter\\TagAwareAdapter' => __DIR__ . '/..' . '/symfony/cache/Adapter/TagAwareAdapter.php',
+        'Symfony\\Component\\Cache\\Adapter\\TagAwareAdapterInterface' => __DIR__ . '/..' . '/symfony/cache/Adapter/TagAwareAdapterInterface.php',
+        'Symfony\\Component\\Cache\\Adapter\\TraceableAdapter' => __DIR__ . '/..' . '/symfony/cache/Adapter/TraceableAdapter.php',
+        'Symfony\\Component\\Cache\\Adapter\\TraceableAdapterEvent' => __DIR__ . '/..' . '/symfony/cache/Adapter/TraceableAdapter.php',
+        'Symfony\\Component\\Cache\\Adapter\\TraceableTagAwareAdapter' => __DIR__ . '/..' . '/symfony/cache/Adapter/TraceableTagAwareAdapter.php',
+        'Symfony\\Component\\Cache\\CacheInterface' => __DIR__ . '/..' . '/symfony/cache/CacheInterface.php',
+        'Symfony\\Component\\Cache\\CacheItem' => __DIR__ . '/..' . '/symfony/cache/CacheItem.php',
+        'Symfony\\Component\\Cache\\DataCollector\\CacheDataCollector' => __DIR__ . '/..' . '/symfony/cache/DataCollector/CacheDataCollector.php',
+        'Symfony\\Component\\Cache\\DoctrineProvider' => __DIR__ . '/..' . '/symfony/cache/DoctrineProvider.php',
+        'Symfony\\Component\\Cache\\Exception\\CacheException' => __DIR__ . '/..' . '/symfony/cache/Exception/CacheException.php',
+        'Symfony\\Component\\Cache\\Exception\\InvalidArgumentException' => __DIR__ . '/..' . '/symfony/cache/Exception/InvalidArgumentException.php',
+        'Symfony\\Component\\Cache\\Exception\\LogicException' => __DIR__ . '/..' . '/symfony/cache/Exception/LogicException.php',
+        'Symfony\\Component\\Cache\\LockRegistry' => __DIR__ . '/..' . '/symfony/cache/LockRegistry.php',
+        'Symfony\\Component\\Cache\\Marshaller\\DefaultMarshaller' => __DIR__ . '/..' . '/symfony/cache/Marshaller/DefaultMarshaller.php',
+        'Symfony\\Component\\Cache\\Marshaller\\MarshallerInterface' => __DIR__ . '/..' . '/symfony/cache/Marshaller/MarshallerInterface.php',
+        'Symfony\\Component\\Cache\\PruneableInterface' => __DIR__ . '/..' . '/symfony/cache/PruneableInterface.php',
+        'Symfony\\Component\\Cache\\ResettableInterface' => __DIR__ . '/..' . '/symfony/cache/ResettableInterface.php',
+        'Symfony\\Component\\Cache\\Simple\\AbstractCache' => __DIR__ . '/..' . '/symfony/cache/Simple/AbstractCache.php',
+        'Symfony\\Component\\Cache\\Simple\\ApcuCache' => __DIR__ . '/..' . '/symfony/cache/Simple/ApcuCache.php',
+        'Symfony\\Component\\Cache\\Simple\\ArrayCache' => __DIR__ . '/..' . '/symfony/cache/Simple/ArrayCache.php',
+        'Symfony\\Component\\Cache\\Simple\\ChainCache' => __DIR__ . '/..' . '/symfony/cache/Simple/ChainCache.php',
+        'Symfony\\Component\\Cache\\Simple\\DoctrineCache' => __DIR__ . '/..' . '/symfony/cache/Simple/DoctrineCache.php',
+        'Symfony\\Component\\Cache\\Simple\\FilesystemCache' => __DIR__ . '/..' . '/symfony/cache/Simple/FilesystemCache.php',
+        'Symfony\\Component\\Cache\\Simple\\MemcachedCache' => __DIR__ . '/..' . '/symfony/cache/Simple/MemcachedCache.php',
+        'Symfony\\Component\\Cache\\Simple\\NullCache' => __DIR__ . '/..' . '/symfony/cache/Simple/NullCache.php',
+        'Symfony\\Component\\Cache\\Simple\\PdoCache' => __DIR__ . '/..' . '/symfony/cache/Simple/PdoCache.php',
+        'Symfony\\Component\\Cache\\Simple\\PhpArrayCache' => __DIR__ . '/..' . '/symfony/cache/Simple/PhpArrayCache.php',
+        'Symfony\\Component\\Cache\\Simple\\PhpFilesCache' => __DIR__ . '/..' . '/symfony/cache/Simple/PhpFilesCache.php',
+        'Symfony\\Component\\Cache\\Simple\\Psr6Cache' => __DIR__ . '/..' . '/symfony/cache/Simple/Psr6Cache.php',
+        'Symfony\\Component\\Cache\\Simple\\RedisCache' => __DIR__ . '/..' . '/symfony/cache/Simple/RedisCache.php',
+        'Symfony\\Component\\Cache\\Simple\\TraceableCache' => __DIR__ . '/..' . '/symfony/cache/Simple/TraceableCache.php',
+        'Symfony\\Component\\Cache\\Simple\\TraceableCacheEvent' => __DIR__ . '/..' . '/symfony/cache/Simple/TraceableCache.php',
+        'Symfony\\Component\\Cache\\Traits\\AbstractTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/AbstractTrait.php',
+        'Symfony\\Component\\Cache\\Traits\\ApcuTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/ApcuTrait.php',
+        'Symfony\\Component\\Cache\\Traits\\ArrayTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/ArrayTrait.php',
+        'Symfony\\Component\\Cache\\Traits\\DoctrineTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/DoctrineTrait.php',
+        'Symfony\\Component\\Cache\\Traits\\FilesystemCommonTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/FilesystemCommonTrait.php',
+        'Symfony\\Component\\Cache\\Traits\\FilesystemTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/FilesystemTrait.php',
+        'Symfony\\Component\\Cache\\Traits\\GetTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/GetTrait.php',
+        'Symfony\\Component\\Cache\\Traits\\MemcachedTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/MemcachedTrait.php',
+        'Symfony\\Component\\Cache\\Traits\\PdoTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/PdoTrait.php',
+        'Symfony\\Component\\Cache\\Traits\\PhpArrayTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/PhpArrayTrait.php',
+        'Symfony\\Component\\Cache\\Traits\\PhpFilesTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/PhpFilesTrait.php',
+        'Symfony\\Component\\Cache\\Traits\\ProxyTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/ProxyTrait.php',
+        'Symfony\\Component\\Cache\\Traits\\RedisProxy' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisProxy.php',
+        'Symfony\\Component\\Cache\\Traits\\RedisTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisTrait.php',
         'Symfony\\Component\\ClassLoader\\ApcClassLoader' => __DIR__ . '/..' . '/symfony/class-loader/ApcClassLoader.php',
         'Symfony\\Component\\ClassLoader\\ClassCollectionLoader' => __DIR__ . '/..' . '/symfony/class-loader/ClassCollectionLoader.php',
         'Symfony\\Component\\ClassLoader\\ClassLoader' => __DIR__ . '/..' . '/symfony/class-loader/ClassLoader.php',
@@ -52,6 +163,13 @@ class ComposerStaticInitb66e9184b492d42c3e215f8bb8880ca5
         'Symfony\\Component\\ClassLoader\\Psr4ClassLoader' => __DIR__ . '/..' . '/symfony/class-loader/Psr4ClassLoader.php',
         'Symfony\\Component\\ClassLoader\\WinCacheClassLoader' => __DIR__ . '/..' . '/symfony/class-loader/WinCacheClassLoader.php',
         'Symfony\\Component\\ClassLoader\\XcacheClassLoader' => __DIR__ . '/..' . '/symfony/class-loader/XcacheClassLoader.php',
+        'Symfony\\Component\\VarExporter\\Internal\\Configurator' => __DIR__ . '/..' . '/symfony/var-exporter/Internal/Configurator.php',
+        'Symfony\\Component\\VarExporter\\Internal\\Exporter' => __DIR__ . '/..' . '/symfony/var-exporter/Internal/Exporter.php',
+        'Symfony\\Component\\VarExporter\\Internal\\Reference' => __DIR__ . '/..' . '/symfony/var-exporter/Internal/Reference.php',
+        'Symfony\\Component\\VarExporter\\Internal\\Registry' => __DIR__ . '/..' . '/symfony/var-exporter/Internal/Registry.php',
+        'Symfony\\Component\\VarExporter\\Internal\\Values' => __DIR__ . '/..' . '/symfony/var-exporter/Internal/Values.php',
+        'Symfony\\Component\\VarExporter\\VarExporter' => __DIR__ . '/..' . '/symfony/var-exporter/VarExporter.php',
+        'Symfony\\Contracts\\Service\\ResetInterface' => __DIR__ . '/..' . '/symfony/contracts/Service/ResetInterface.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

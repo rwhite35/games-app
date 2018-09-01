@@ -10,7 +10,8 @@
 	],
 	"minimum-stability" : "dev",
 	"require" : {
-		"symfony/class-loader" : "^3.4@dev"
+		"symfony/class-loader" : "^3.4@dev",
+		"symfony/cache": "^4.2@dev"
 	},
 	"config" : {
 		"classmap-authoritative" : true
