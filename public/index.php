@@ -26,7 +26,7 @@ $boardMatrix = $boardController->boardAction();
     -->
 	<title>Eight Queens</title>	
 
-    <!-- Bootstrap and Style CSS -->
+    <!-- Bootstrap (using robo install) and Style CSS -->
     <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <!-- Robohabilis specific style -->
@@ -240,6 +240,7 @@ $boardMatrix = $boardController->boardAction();
 <!-- Inline JavaScript ===================================//-->
 <!-- 
     Bootstrap JS, Instance Time object and handle AJAX Request/Response
+    -- using Robohabilis Bootstrap install
 -->
 <script type="text/javascript" src="../../dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/Timer.js"></script>
