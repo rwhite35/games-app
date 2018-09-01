@@ -4,15 +4,29 @@ footer { margin-left:2%; margin-top:2% ; border: 0pt solid black }
 h3 { font-size: 24px; font-style: normal }
 p { font-size: 16px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 20px }
 
-.container { position: relative; width: 85%; height: 85%; margin-left:2% }
+/* GAMEBOARD
+-------------------------------------------------- */
+/* Wrapper positions the active area */
+.wrapper { position:absolute; top:8% }
+
+/* Center align the text within the three columns below the carousel */
+.gameboard .col-md-1 {}
+.gameboard .col-md-3 {
+	margin-left: 10px;
+}
+.gameboard .col-md-8 p h3 {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
 table { width:450px; height:450px }
 table, tr, td { border: 1px solid black; text-align:center }
-
-.stats { position: relative; width:600px; height:70px; padding-top:5px; padding-left: 3%; }
-.snum { font-size:39px; border: 0pt solid black }
-.box { float:left; margin-left: 1em; margin-right: 1em }
-.hearts { padding-top: 7px; padding-left: 18px; width: 41px; height: 46px; border: 0pt solid black }
-.spades { padding-top: 7px; padding-left: 18px; width: 41px; height: 46px; border: 0pt solid black }
+.stats { position: relative; height:70px; padding-top:5px; padding-left: 3%; }
+.snum { font-size:39px; boarder: 1pt solid black }
+.box { float:left; margin-left: 1.5em; margin-right: 1.5em }
+.hearts { padding-top: 7px; padding-left: 18px; width: 57px; height: 57px; border: 0pt solid black }
+.spades { padding-top: 7px; padding-left: 18px; width: 57px; height: 57px; border: 0pt solid black }
+.timer-box { padding-left: 4% }
 span.message {font-size:18px; font-weight:600; color: #5daadd;}
 
 .tray { 
