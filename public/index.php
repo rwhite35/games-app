@@ -3,16 +3,16 @@
 chdir(dirname(__DIR__));
 require_once 'vendor/autoload.php';
 
-use EightQueens\Gameboard\Module;
+// use EightQueens\Gameboard\Module;
 use EightQueens\Gameboard\Controller\BoardController;
 
-$boardObj = new Module();
-$configs = $boardObj->getConfig();
-$routes = $configs['router']['routes'];
+// $boardObj = new Module();
+// $cache = $boardObj->initGameCache();
 
 $boardController = new BoardController();
 $boardMatrix = $boardController->boardAction();
 
+$tempDir = "../../robohabilis"; // for dev bootstrap and carousel, remove before push
 ?>
 <!DOCTYPE html>
 <html>
@@ -27,10 +27,12 @@ $boardMatrix = $boardController->boardAction();
 	<title>Eight Queens</title>	
 
     <!-- Bootstrap (using robo install) and Style CSS -->
-    <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--  <link href="../../dist/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="<?php echo $tempDir?>/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <!-- Robohabilis specific style -->
-    <link href="../../carousel.css" rel="stylesheet">
+    <!--  <link href="../../carousel.css" rel="stylesheet"> -->
+    <link href="<?php echo $tempDir?>/carousel.css" rel="stylesheet">
     
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -242,7 +244,8 @@ $boardMatrix = $boardController->boardAction();
     Bootstrap JS, Instance Time object and handle AJAX Request/Response
     -- using Robohabilis Bootstrap install
 -->
-<script type="text/javascript" src="../../dist/js/bootstrap.min.js"></script>
+<!--  <script type="text/javascript" src="../../dist/js/bootstrap.min.js"></script> -->
+<script type="text/javascript" src="<?php echo $tempDir?>/dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/Timer.js"></script>
 <script>
   $(document).ready(function () {

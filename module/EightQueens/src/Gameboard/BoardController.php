@@ -3,7 +3,9 @@ namespace EightQueens\Gameboard\Controller;
 
 use EightQueens\Gameboard\Model\Board;
 use EightQueens\Gameboard\Solutions\Solution;
+use Symfony\Component\Cache\Simple\FilesystemCache;
 use Exception;
+use EightQueens\Gameboard\Module;
 
 class BoardController extends Board
 {
@@ -54,6 +56,10 @@ class BoardController extends Board
         $resultArr  = [];
         $json       = "";
         $exclamation = Board::$Exclamations;        // Model\Board property
+        $module  = new Module();                    // Gameboard\Module
+        $trialCntCached = $module->getPlayerTrialCnt( $trialArray[0]['uuid'] );
+        error_log( __LINE__ .": submitAction got trial count from cache ".
+            "with count $trialCntCached." );
         
         try {
             
@@ -67,12 +73,14 @@ class BoardController extends Board
                     $trialArray[0]['uuid']          // string "4560...aaf25"
                 );
                 
+                $newTrialCnt = $trialCntCached + $trialArray[0]['trial'];
+                
                 /* insert record in to db */
                 error_log( __LINE__ .": submitAction player " .
                     "with UUID " . $trialArray[0]['uuid'] . " solved puzzle " .
                         "in " . $trialArray[0]['time'] . " for the " .
                         "spaces " . $trialArray[0]['spaces'] . " and " .
-                        "trial count " . $trialArray[0]['trial'] );
+                        "trial count " . $newTrialCnt );
                 
                 /* check solution for solve */
                 $resultArr = $submitSolution->checkSolution();
