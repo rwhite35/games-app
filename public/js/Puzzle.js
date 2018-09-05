@@ -1,8 +1,7 @@
 /**
  * Puzzle Class
- * An OO JavaScript class for managing EightQueens functionality.
- * This abstracts out elements (like UUID, buttons, etc) so 
- * it can be extended from other games with similar requirements.
+ * An OO JavaScript class for managing EightQueens functionality
+ * and Users Interface mememory requirements.
  * 
  * @version 1.0.1
  * @since 20180829
@@ -21,74 +20,114 @@ class Puzzle
 	{
 		this.UUID = window.localStorage.getItem('EightQueens');
 		this.timestamp = new Date();
-		this.gbdataset = [
+		this.gbDataKeys = [
 				'queens',
 				'spaces',
-				'time',
-				'trial',
+				'timestamp',
+				'interval',
+				'trial_count',
 				'uuid'
 			];
+		this.gbLocalStore = new Map();
+		this.user = {};
 	}
+	
+	
+	/**
+	 * initialize the gameboard UI memory management
+	 * starting with timestamp and UUID.
+	 */
+	initGame()
+	{
+		console.log("initGame started at " + this.timestamp );
+		
+		if ( this.UUID === null ) {
+			console.log( "initGame is creating a new user id." );
+			let uuid = this.createNewUuid();
+			this.setUuid( uuid );
+			
+		} else { // check the user for freshness
+			console.log( "initGame UUID has value, testing for freshness." );
+			let freshness = this.checkUserId( this.UUID, this.timestamp );
+			
+			if( freshness === true ) {
+				console.log( "UUID is fresh, continuing on..." );
+			
+			} else {
+				console.log( "UUID is stale, delete the old and " +
+						"create a new one." );
+			}
+			
+		}
+		
+		return this.timestamp;
+	}
+		
+	
+	/**
+	 * setUuid
+	 * setter method for setting UUID in localStorage
+	 * 
+	 * @return void, sets UUID property
+	 */
+	setUuid( newUuid )
+	{
+		Object.defineProperty( this.user, 'uuid', {
+			value: newUuid,
+			writable: false
+		});
+		
+		Object.defineProperty( this.user, 'timestamp', {
+			value: this.timestamp,
+			writable: true
+		});
+		
+		/* assign to gameboard Map and UUID 
+		 * to localStorage for easy access */
+		this.gbLocalStore.set('EightQueens', this.user);
+		window.localStorage.setItem( 
+				"EightQueens",
+				newUuid
+			);
+		
+		this.UUID = newUuid;
+		
+	}
+	
 	
 	/**
 	 * getUuid, 
 	 * getter method for UUID
 	 * @return {string} EightQueens, UUID 
 	 */
-	getUuid()
-	{
-		return this.UUID;
-		
-	}
-	
-	
-	/**
-	 * initial the gameboard timestamp for checking UUID freshness
-	 * and other time aware functions.
-	 */
-	loadedOn()
-	{
-		console.log("The timer started on page load at " + this.timestamp );
-		return this.timestamp;
-	}
+	getUuid() { return this.UUID; }
 	
 	
 	/**
 	 * Check if UUID was previously set and still valid.
-	 * otherwise its a new user, create a UUID and return true.
+	 * otherwise we need a new UUID. 
 	 * 
-	 * @todo 20180829 will work with checkUuidFreshness
-	 * 
-	 * @return {boolean} true when already created
+	 * @return {boolean} true if UUID is less than 24 old
 	 */
-	checkUserId() 
+	checkUserId( testUuid, uuidSetDate ) 
 	{
-		var created = false;
+		var freshness = false;
+		var expiration = new Date();
+		expiration.setDate(expiration.getDate() - 1);
 		
-		if( this.UUID == null ) {
-			window.localStorage.setItem(
-				'EightQueens',
-				this.createNewUuid()
-			);
+		var timeDiff = uuidSetDate.getTime() - expiration.getTime();
+		
+		if (timeDiff <= 86400000 ) {
+			console.log("checkUserId UUID is less than 24 hours old, return true!")
+			freshness = true;
 			
-			created = true;
+		} else {
+			console.log( "checkUserId UUID is older than 24 hours, return false." );
+			
 		}
 		
-		// additional validation here.
+		return freshness;
 		
-		return created;
-		
-	}
-	
-	
-	/**
-	 * check UUID freshness, if stale, create a new one
-	 * @todo 20180829 needs body defined with validation logic
-	 */
-	checkUuidFreshness(timestamp)
-	{
-		// stubbed for later development
-		console.log( "The current date/timestamp is " + timestamp );
 	}
 	
 	
@@ -129,7 +168,7 @@ class Puzzle
 		
 		for ( var j=0; j<count; j++ ) {
 			
-			var key = this.gbdataset[j];
+			var key = this.gbDataKeys[j];
 			var value = solveRef.get(key);
 			var catstr = '"' + key + '":"' + value + '"';
 			jstring += catstr;

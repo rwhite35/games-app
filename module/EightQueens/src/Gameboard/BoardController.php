@@ -45,7 +45,7 @@ class BoardController extends Board
      *  
      * @param array $get JSON input from users submission
      * * proto: Array( [0] => Array(
-     * * *  [queens] => Q101,..,Q108, [spaces] => AQ,..,BH, [time] => 00:00:00 ) )
+     * * *  [queens] => Q101,..,Q108, [spaces] => AQ,..,BH, [interval] => 00:00:00 ) )
      * 
      * @return array $resultArr, output check process result and UI feedback
      * * proto Array = [ status=>string, message=>string, captured=>[array|empty] ] 
@@ -69,16 +69,16 @@ class BoardController extends Board
                 $submitSolution->setSolutionQueens(
                     $trialArray[0]['queens'],       // string "Q101,Q102,Q103..."
                     $trialArray[0]['spaces'],       // string "A,B,C..."
-                    $trialArray[0]['time'],         // string "00:00:35"
+                    $trialArray[0]['interval'],     // string "00:00:35"
                     $trialArray[0]['uuid']          // string "4560...aaf25"
                 );
                 
-                $newTrialCnt = $trialCntCached + $trialArray[0]['trial'];
+                $newTrialCnt = $trialCntCached + $trialArray[0]['trial_count'];
                 
                 /* insert record in to db */
                 error_log( __LINE__ .": submitAction player " .
                     "with UUID " . $trialArray[0]['uuid'] . " solved puzzle " .
-                        "in " . $trialArray[0]['time'] . " for the " .
+                        "in " . $trialArray[0]['interval'] . " for the " .
                         "spaces " . $trialArray[0]['spaces'] . " and " .
                         "trial count " . $newTrialCnt );
                 

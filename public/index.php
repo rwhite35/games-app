@@ -3,16 +3,14 @@
 chdir(dirname(__DIR__));
 require_once 'vendor/autoload.php';
 
-// use EightQueens\Gameboard\Module;
 use EightQueens\Gameboard\Controller\BoardController;
-
-// $boardObj = new Module();
-// $cache = $boardObj->initGameCache();
 
 $boardController = new BoardController();
 $boardMatrix = $boardController->boardAction();
 
-$tempDir = "../../robohabilis"; // for dev bootstrap and carousel, remove before push
+// @TODO Remove before push to webserver, temp for dev only!!!!
+$tempDir = "../../robohabilis";
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -41,66 +39,13 @@ $tempDir = "../../robohabilis"; // for dev bootstrap and carousel, remove before
         <![endif]-->
     <!-- 
         load JavaScript resources and Puzzle class 
+        initialize the gameboard JS resources
     -->
 	<script type="text/javascript" src="js/jquery/dist/jquery.js"></script>
 	<script type="text/javascript" src="js/Puzzle.js"></script>
 	<script>
-		const dragQueen = new Object();
 		const puzzleControls = new Puzzle();
-		
-		/* new puzzle instance */
-		function setupNewPuzzle()
-		{
-			// returns timestamp
-			if ( !puzzleControls.hasOwnProperty('timerstart') )
-				Object.defineProperty( puzzleControls, 'timerstart', {
-					value: puzzleControls.loadedOn(),
-					writable: true,
-				});
-				
-			// handle UUID
-			if ( puzzleControls.hasOwnProperty('uuid') ) {
-				// stubbed for freshness check and validation
-			
-			} else { // new player, set UUID
-				puzzleControls.checkUserId()
-				Object.defineProperty( puzzleControls, 'uuid', {
-					value: puzzleControls.getUuid(),
-					writable: false,
-				});	
-			}	
-		}
-		
-		/* 
-		 * enable drap and drop functionality 
-		 */
-		function allowDrop(ev) {
-			// set all to false, so only gameboard is drappable
-			ev.preventDefault();
-			
-		}
-		
-		function drag(ev) {
-			ev.dataTransfer.setData("text", ev.target.id);
-		
-		}
-		
-		function drop(ev) {
-			ev.preventDefault();
-			// before drop, update elements data attr
-			var data = ev.dataTransfer.getData("text");
-			ev.target.appendChild(document.getElementById(data));
-			
-		    // start timer first time drop is fired	
-			if ( !dragQueen.hasOwnProperty('first') ) {
-				$("#start").trigger("click"); // starts timer
-				Object.defineProperty( dragQueen, 'first', {
-					value: data,
-					writable: false,
-					
-				});
-		}	
-	}
+		puzzleControls.initGame();
 	</script>
 	
 	<!-- 
@@ -228,8 +173,11 @@ $tempDir = "../../robohabilis"; // for dev bootstrap and carousel, remove before
 		
 	  	<!-- footer elements -->
 		<footer>
-        	<p class="pull-right"><a href="#">&nbsp;</a></p>
-        	<p>&copy; 2016 - <script>document.write(new Date().getFullYear())</script> robohabilis.com &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+        	<p>&copy; 2016 - <script>document.write(new Date().getFullYear())</script> 
+        		robohabilis.com &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a>
+        		<div id="uuid", style="visibility:hidden">&nbsp;<div>
+        	
+        	</p>
   		</footer>
   	
   	<!-- 
@@ -242,21 +190,64 @@ $tempDir = "../../robohabilis"; // for dev bootstrap and carousel, remove before
 <!-- Inline JavaScript ===================================//-->
 <!-- 
     Bootstrap JS, Instance Time object and handle AJAX Request/Response
-    -- using Robohabilis Bootstrap install
 -->
+<script>
+	const dragQueen = new Object();
+	
+	/* set up this users gameboard instance */
+	function setupNewPuzzle()
+	{
+		if ( puzzleControls.UUID.length ) {
+			var el = document.getElementById("uuid");
+			el.setAttribute( "data-uuid", puzzleControls.getUuid() );
+			
+		}
+		
+	}
+	
+	
+	/* 
+	 * enable drap and drop functionality */
+	function allowDrop(ev) {
+		ev.preventDefault(); // limit to gameboard only
+		
+	}
+	
+	function drag(ev) {
+		ev.dataTransfer.setData("text", ev.target.id);
+	
+	}
+	
+	function drop(ev) {
+		ev.preventDefault();
+		var data = ev.dataTransfer.getData("text");
+		ev.target.appendChild(document.getElementById(data));
+			
+		// start timer first time drop is fired	
+		if ( !dragQueen.hasOwnProperty('first') ) {
+			$("#start").trigger("click"); // starts timer
+			Object.defineProperty( dragQueen, 'first', {
+				value: data,
+				writable: false,
+			});
+		}
+		
+	}
+</script>
 <!--  <script type="text/javascript" src="../../dist/js/bootstrap.min.js"></script> -->
 <script type="text/javascript" src="<?php echo $tempDir?>/dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/Timer.js"></script>
 <script>
   $(document).ready(function () {
- 	
+	  
   	const solve = new Map();	// requires ES6
   	
   	/* stop timer on initial page load */
   	$("#stop").trigger("click");
   	$("#clear").trigger("click");
 	
-	/* on submit, collect gameboard data and 
+	/* 
+	 * on submit, collect gameboard data and 
 	 * pass JSON to checkSolution endpoint */
 	$('#submit').on("click", function(event) {
 		
@@ -303,17 +294,18 @@ $tempDir = "../../robohabilis"; // for dev bootstrap and carousel, remove before
 	 * collect gameboard data for testing the submitted solution.
 	 * uses puzzleControls.gbdataset prototype
 	 * * which defines solve map key string. 
-	 * * Also note order [ "queens", "spaces", "time", "trial", "uuid" ]
+	 * * Also note order [ "queens", "spaces", "timestamp", "trial", "uuid" ]
 	 */
 	function getTableData() {
-		var queens = [];
-		var spaces = [];
-		var skeys = puzzleControls.gbdataset;
-			
-		var trial = $('span#tt').text();
-		var time = $('h2#timer').text();
-		var td = $('tbody tr').find('td');
-		var uuid = window.localStorage.getItem('EightQueens');
+		var skeys = puzzleControls.gbDataKeys;
+		var td 			= $('tbody tr').find('td');
+		
+		var queens 		= [];
+		var spaces 		= [];	
+		var timestamp	= puzzleControls.timestamp;
+		var interval 	= $('h2#timer').text();
+		var trial_count	= $('span#tt').text();
+		var uuid		= $('div#uuid').data('uuid');
 		
 		td.each(function() {
 			var hasImg = $('img',this).length > 0;
@@ -326,9 +318,10 @@ $tempDir = "../../robohabilis"; // for dev bootstrap and carousel, remove before
 		// assign arrays to solve Map, note the order
 		solve.set( skeys[0], queens );		// queens ids "Q101,Q102,..Q108"
 		solve.set( skeys[1], spaces );		// occupied spaces "A,J...BE"
-		solve.set( skeys[2], time );		// timer "00:01:30"
-		solve.set( skeys[3], trial );		// num if trials "2"
-		solve.set( skeys[4], uuid );		// UUID "4560b...aaf25"
+		solve.set( skeys[2], timestamp );	// initialized at...
+		solve.set( skeys[3], interval );	// timer "00:01:30"
+		solve.set( skeys[4], trial_count );	// num if trials "2"
+		solve.set( skeys[5], uuid );		// UUID "4560b...aaf25"
 	}
 	
 });

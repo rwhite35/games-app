@@ -13,7 +13,6 @@ namespace EightQueens\Gameboard;
  */
 
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;  // PSR 6
-use Symfony\Component\Cache\Simple\FilesystemCache;     // PSR 16
 use DateTime;
 
 class Module
@@ -24,7 +23,7 @@ class Module
     
     /**
      * Initializes Cache for storing persistent game data like
-     * solutions submit count, player UUID and other data.
+     * solutions trial submit count, player UUID and other data.
      *
      * Creates a new filesystem cache item if one doesn't already
      * exist. stdClass object has a prototype of:
@@ -39,7 +38,7 @@ class Module
     public function initGameCache( string $uuid, int $subcount )
     {
         $gameCache = new FilesystemAdapter();       // Symfony\Component\Cache
-        $playerItem = $gameCache->getItem( player ."_". $uuid );
+        $playerItem = @$gameCache->getItem( player ."_". $uuid );
         
         if ( !$playerItem->isHit() ) {              // its a new player
             $date = new DateTime();
@@ -102,20 +101,18 @@ class Module
         } else {
             error_log( __LINE__ .": Gameboard\Module->getPlayerTrialCnt has player item, " .
                 "getting count for " . $playerItem->getKey() );
-            // $key = $playerItem->getKey();
+            
             $array = $playerItem->get();
-            /*
+            
             ob_start();
-            echo ( __LINE__ . ": Gameboard\Module->getPlayerTrialCnt has cached item " .
-                "with key $key and values " );
+            echo ( __LINE__ . ": Gameboard\Module->getPlayerTrialCnt has cached items: " );
             print_r($array);
             $str = ob_get_clean();
             error_log($str);
-            */
+            
             return $array['trial_count'];
             
         }
-        
         
     }
     
