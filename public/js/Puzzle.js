@@ -3,7 +3,7 @@
  * An OO JavaScript class for managing EightQueens functionality
  * and Users Interface mememory requirements.
  * 
- * @version 1.0.1
+ * @version 1.0.2
  * @since 20180829
  * @property {prototype} gbdataset, defined Map keys for
  * * dataset payload both as request and response.
@@ -18,8 +18,19 @@ class Puzzle
 	
 	constructor()
 	{
-		this.UUID = window.localStorage.getItem('EightQueens');
-		this.timestamp = new Date();
+		// convenient properties for quick UI access
+		this.UUID = new String();
+		this.CCOUNT = new Number();
+		this.GAME = "EightQueens";
+				
+		// EightQueens object with default values
+		this.EightQueensObj = {
+				'uuid': null,
+				'timestamp': new Date(),
+				'trial_count': 0,
+		}
+		
+		// Gameboard JSON schema for backend data
 		this.gbDataKeys = [
 				'queens',
 				'spaces',
@@ -28,39 +39,42 @@ class Puzzle
 				'trial_count',
 				'uuid'
 			];
-		this.gbLocalStore = new Map();
-		this.user = {};
+		
 	}
 	
 	
 	/**
 	 * initialize the gameboard UI memory management
 	 * starting with timestamp and UUID.
+	 * 
+	 * @return {void} sets values on global objects
 	 */
 	initGame()
 	{
-		console.log("initGame started at " + this.timestamp );
+		console.log("initGame starting up." );
 		
-		if ( this.UUID === null ) {
-			console.log( "initGame is creating a new user id." );
-			let uuid = this.createNewUuid();
-			this.setUuid( uuid );
+		let uuid = this.createNewUuid();
+		let timestamp = new Date();
+		let trial_count = 0;
+		
+		if ( window.localStorage.getItem( this.GAME ) === null ) {
 			
-		} else { // check the user for freshness
-			console.log( "initGame UUID has value, testing for freshness." );
-			let freshness = this.checkUserId( this.UUID, this.timestamp );
+			console.log( "New player! Creating new UUID and timestamp." );
+			this.setLocalStore( uuid, timestamp, trial_count );
 			
-			if( freshness === true ) {
-				console.log( "UUID is fresh, continuing on..." );
+		} else {  // EightQueens obj already stored, check its freshness
 			
-			} else {
-				console.log( "UUID is stale, delete the old and " +
-						"create a new one." );
+			let freshness = this.checkUserIdFreshness( this.getUuid(),  this.getTimestamp() );
+			
+			if( freshness === false ) {
+				
+				console.log( "Previously stored UUID is older than 24 hours, replacing it!" );
+				this.deleteEightQueens( this.GAME );
+				this.setLocalStore( uuid, timestamp, trial_count )
+				
 			}
-			
 		}
 		
-		return this.timestamp;
 	}
 		
 	
@@ -70,27 +84,26 @@ class Puzzle
 	 * 
 	 * @return void, sets UUID property
 	 */
-	setUuid( newUuid )
+	setLocalStore( newUuid, newTimestamp, newTrial_Count )
 	{
-		Object.defineProperty( this.user, 'uuid', {
-			value: newUuid,
-			writable: false
-		});
+		this.EightQueensObj.uuid = newUuid;
+		this.EightQueensObj.timestamp = newTimestamp;
+		this.EightQueensObj.trial_count = newTrial_Count;
 		
-		Object.defineProperty( this.user, 'timestamp', {
-			value: this.timestamp,
-			writable: true
-		});
+		window.localStorage.setItem( this.GAME, JSON.stringify( this.EightQueensObj ) );
 		
-		/* assign to gameboard Map and UUID 
-		 * to localStorage for easy access */
-		this.gbLocalStore.set('EightQueens', this.user);
-		window.localStorage.setItem( 
-				"EightQueens",
-				newUuid
+	}
+	
+	
+	/**
+	 * getEightQueens
+	 * parse localStore JSON object
+	 * @return {object} EightQueens object
+	 */
+	getEightQueens() {
+		return JSON.parse( 
+				window.localStorage.getItem( this.GAME ) 
 			);
-		
-		this.UUID = newUuid;
 		
 	}
 	
@@ -98,9 +111,65 @@ class Puzzle
 	/**
 	 * getUuid, 
 	 * getter method for UUID
-	 * @return {string} EightQueens, UUID 
+	 * this.UUID accessed from UI
+	 * 
+	 * @return {string} EightQueens.uuid 
 	 */
-	getUuid() { return this.UUID; }
+	getUuid() 
+	{ 
+		let LSEQ = this.getEightQueens();
+		this.UUID = LSEQ.uuid;
+		return this.UUID; 
+	
+	}
+	
+	
+	/**
+	 * getTimestamp
+	 * getter method for Timestamp
+	 * 
+	 * @return {string} EightQueens.timestamp
+	 */
+	getTimestamp()
+	{
+		let LSEQ = this.getEightQueens();
+		return LSEQ.timestamp;
+		
+	}
+	
+	
+	/**
+	 * getTrialCount
+	 * getter method for Trial Count
+	 * this.CCOUNT accessed from UI
+	 * 
+	 * @return {int} EightQueens.trial_count
+	 */
+	getTrialCount()
+	{
+		let LSEQ = this.getEightQueens();
+		this.CCOUNT = this.LSEQ.timestamp;
+		return this.CCOUNT;
+	}
+	
+	
+	/**
+	 * deleteEightQueens
+	 * delete EightQueens from localStore on expired freshness
+	 * or when the user closes the EightQueens tab.
+	 * 
+	 * @param {string} item, name of the items to remove from localStorage
+	 * 
+	 * @return {bool} true in either case.
+	 */
+	deleteEightQueens( item )
+	{
+		if( window.localStorage.hasOwnProperty( item ) ) {
+			window.localStorage.removeItem( item );
+		}
+		
+		return true;
+	}
 	
 	
 	/**
@@ -109,23 +178,18 @@ class Puzzle
 	 * 
 	 * @return {boolean} true if UUID is less than 24 old
 	 */
-	checkUserId( testUuid, uuidSetDate ) 
+	checkUserIdFreshness( localStoreUuid, localStoreTimestamp ) 
 	{
 		var freshness = false;
+		var lsTimeObj = new Date( localStoreTimestamp );
 		var expiration = new Date();
+		
 		expiration.setDate(expiration.getDate() - 1);
+		var timeDiff = lsTimeObj.getTime() - expiration.getTime();
 		
-		var timeDiff = uuidSetDate.getTime() - expiration.getTime();
-		
-		if (timeDiff <= 86400000 ) {
-			console.log("checkUserId UUID is less than 24 hours old, return true!")
-			freshness = true;
+		// a negative timeDiff would be older than 24 hours
+		if ( timeDiff > 0 ) freshness = true;
 			
-		} else {
-			console.log( "checkUserId UUID is older than 24 hours, return false." );
-			
-		}
-		
 		return freshness;
 		
 	}
@@ -154,6 +218,8 @@ class Puzzle
 	
 	/**
 	 * Gameboard data defined in solve Map
+	 * Concats a JSON string for posting to checkSolution endpoint.
+	 * 
 	 * Note order of this.gbdataset, all instance rely on this order.
 	 * 
 	 * @param {obj reference} solveRef, use get() to assign gameboard data.
@@ -212,9 +278,12 @@ class Puzzle
 	 * Trial counter accessor function
 	 * @return {object} current count trial (heart) count
 	 */
-	clickCounter() 
+	clickCounter(cnt) 
 	{
-		document.getElementById("tt").innerHTML = this.counter(1);
+		// document.getElementById("tt").innerHTML = this.counter(1);
+		let newCnt = this.counter(cnt);
+		document.getElementById("tt").innerHTML = newCnt;
+		
 		
 	}
 	

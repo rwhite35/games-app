@@ -197,7 +197,7 @@ $tempDir = "../../robohabilis";
 	/* set up this users gameboard instance */
 	function setupNewPuzzle()
 	{
-		if ( puzzleControls.UUID.length ) {
+		if ( puzzleControls.UUID != null ) {
 			var el = document.getElementById("uuid");
 			el.setAttribute( "data-uuid", puzzleControls.getUuid() );
 			
@@ -255,7 +255,9 @@ $tempDir = "../../robohabilis";
 		$("#stop").trigger("click");
 		
 		getTableData();
-		puzzleControls.clickCounter();
+		puzzleControls.clickCounter(
+			document.getElementById("tt").valueOf()
+		);
 		
 		var jsonStr = puzzleControls.mapToJson(solve, solve.size);
 		
@@ -323,6 +325,17 @@ $tempDir = "../../robohabilis";
 		solve.set( skeys[4], trial_count );	// num if trials "2"
 		solve.set( skeys[5], uuid );		// UUID "4560b...aaf25"
 	}
+	
+	
+	/*
+	 * deallocate localStorage before unloading
+	 * the documents resources.
+	 */
+	window.onbeforeunload = function(e) {
+		e.preventDefault(); 
+		localStorage.removeItem( puzzleControls.GAME );
+		return '';
+	};
 	
 });
 </script>
