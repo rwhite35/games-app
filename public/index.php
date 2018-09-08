@@ -44,8 +44,10 @@ $tempDir = "../../robohabilis";
 	<script type="text/javascript" src="js/jquery/dist/jquery.js"></script>
 	<script type="text/javascript" src="js/Puzzle.js"></script>
 	<script>
-		const puzzleControls = new Puzzle();
-		puzzleControls.initGame();
+		if ( typeof puzzleControls == "undefined" ) {
+			var puzzleControls = new Puzzle();
+			puzzleControls.initGame();
+		}
 	</script>
 	
 	<!-- 
@@ -149,7 +151,7 @@ $tempDir = "../../robohabilis";
 					<button id="clear">clear</button>
 				</div>
 			</div>
-			<div class="gameboard col-md-8">
+			<div id="board" class="gameboard col-md-8">
 				<?php include 'module/EightQueens/view/gameboard/board.php'?>
 			</div>
 			
@@ -165,7 +167,7 @@ $tempDir = "../../robohabilis";
 					<button class="btn_submit box" type="submit" id="submit">&nbsp;</button>
 					<div class="hearts box"><span id="tt" class="snum">0</span></div>
 					<div class="spades box"><span id="ss" class="snum" style="color:#ffffff">0</span></div>
-					<button class="btn_tryagain box" type="reset" id="reset">&nbsp;</button>
+					<button class="btn_tryagain box" id="reset">&nbsp;</button>
 				</div>
 			</div>
 			<div class="col-md-1">&nbsp;</div>
@@ -194,7 +196,7 @@ $tempDir = "../../robohabilis";
 <script>
 	const dragQueen = new Object();
 	
-	/* set up this users gameboard instance */
+	/* set this users gameboard UUID */
 	function setupNewPuzzle()
 	{
 		if ( puzzleControls.UUID != null ) {
@@ -230,8 +232,7 @@ $tempDir = "../../robohabilis";
 				value: data,
 				writable: false,
 			});
-		}
-		
+		}	
 	}
 </script>
 <!--  <script type="text/javascript" src="../../dist/js/bootstrap.min.js"></script> -->
@@ -240,24 +241,34 @@ $tempDir = "../../robohabilis";
 <script>
   $(document).ready(function () {
 	  
-  	const solve = new Map();	// requires ES6
+	/* stores gameboard data */
+	const solve = new Map();
   	
   	/* stop timer on initial page load */
   	$("#stop").trigger("click");
   	$("#clear").trigger("click");
+  	
+  	/* set trial count on page load */
+	document.getElementById("tt").innerHTML = puzzleControls.getTrialCount();
+	document.getElementById("ss").innerHTML = puzzleControls.getSolveCount();
 	
 	/* 
-	 * on submit, collect gameboard data and 
-	 * pass JSON to checkSolution endpoint */
+	 * ON SUBMIT, 
+	 * collect data and pass JSON to checkSolution endpoint */
 	$('#submit').on("click", function(event) {
 		
-		/* stop Timer on submit */
+		/* stop the timer */
 		$("#stop").trigger("click");
 		
+		/* increment trial count on submit */
+		puzzleControls.incrementCounter( 
+				$('span#tt').text(),
+				$('span#ss').text(),
+				"trial"
+			);
+		
+		/* update solve object with new gameboard data */
 		getTableData();
-		puzzleControls.clickCounter(
-			document.getElementById("tt").valueOf()
-		);
 		
 		var jsonStr = puzzleControls.mapToJson(solve, solve.size);
 		
@@ -275,8 +286,16 @@ $tempDir = "../../robohabilis";
 						puzzleControls.appendHighlight(
 			    	  			results.response.captured
 			    	  		);
-			    	  }
+						
+			    	} else {	// success! increment solve
+			    		puzzleControls.incrementCounter( 
+			    				$('span#tt').text(),
+			    				$('span#ss').text(),
+			    				"solve"
+			    			);
+			    	}
 			    },
+			    
 			    error: function() {
 			        console.log('Cannot retrieve data.');
 			        
@@ -292,6 +311,17 @@ $tempDir = "../../robohabilis";
 	
 	
 	/*
+	 * ON RESET
+	 * reload the gameboard and UI data */
+	 $("#reset").on("click", function(event) {
+		 
+		 $("#clear").trigger("click");
+		 location.reload(true);
+		 
+	 });
+	
+	
+	/*
 	 * getTableData
 	 * collect gameboard data for testing the submitted solution.
 	 * uses puzzleControls.gbdataset prototype
@@ -304,38 +334,31 @@ $tempDir = "../../robohabilis";
 		
 		var queens 		= [];
 		var spaces 		= [];	
-		var timestamp	= puzzleControls.timestamp;
-		var interval 	= $('h2#timer').text();
-		var trial_count	= $('span#tt').text();
-		var uuid		= $('div#uuid').data('uuid');
+		var timestamp	= puzzleControls.getTimestamp();
+		let interval 	= $('h2#timer').text();
+		let trial_count	= $('span#tt').text();
+		let solve_count = $('span#ss').text();
+		let uuid		= $('div#uuid').data('uuid');
 		
 		td.each(function() {
-			var hasImg = $('img',this).length > 0;
+			let hasImg = $('img',this).length > 0;
 			if(hasImg) {
 				queens.push( $('img',this).attr('id') );
 				spaces.push( $(this).data('title') );
 			}
 		});
 		
-		// assign arrays to solve Map, note the order
+		/* assign values to solve Map 
+		 * for checking solution, note the order */
 		solve.set( skeys[0], queens );		// queens ids "Q101,Q102,..Q108"
 		solve.set( skeys[1], spaces );		// occupied spaces "A,J...BE"
 		solve.set( skeys[2], timestamp );	// initialized at...
 		solve.set( skeys[3], interval );	// timer "00:01:30"
-		solve.set( skeys[4], trial_count );	// num if trials "2"
-		solve.set( skeys[5], uuid );		// UUID "4560b...aaf25"
+		solve.set( skeys[4], trial_count );	// num of trials submitted (in this session)
+		solve.set( skeys[5], solve_count ); // num of succuessful solutions
+		solve.set( skeys[6], uuid );		// UUID "4560b...aaf25"
+		
 	}
-	
-	
-	/*
-	 * deallocate localStorage before unloading
-	 * the documents resources.
-	 */
-	window.onbeforeunload = function(e) {
-		e.preventDefault(); 
-		localStorage.removeItem( puzzleControls.GAME );
-		return '';
-	};
 	
 });
 </script>

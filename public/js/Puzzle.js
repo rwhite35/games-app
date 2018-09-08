@@ -21,22 +21,25 @@ class Puzzle
 		// convenient properties for quick UI access
 		this.UUID = new String();
 		this.CCOUNT = new Number();
+		this.SCOUNT = new Number();
 		this.GAME = "EightQueens";
 				
-		// EightQueens object with default values
+		// Game data stored in localStorage for UI
 		this.EightQueensObj = {
 				'uuid': null,
 				'timestamp': new Date(),
 				'trial_count': 0,
+				'solve_count': 0
 		}
 		
-		// Gameboard JSON schema for backend data
+		// Gameboard JSON schema for checkSolution endpoint
 		this.gbDataKeys = [
 				'queens',
 				'spaces',
 				'timestamp',
 				'interval',
 				'trial_count',
+				'solve_count',
 				'uuid'
 			];
 		
@@ -56,21 +59,22 @@ class Puzzle
 		let uuid = this.createNewUuid();
 		let timestamp = new Date();
 		let trial_count = 0;
+		let solve_count = 0;
 		
 		if ( window.localStorage.getItem( this.GAME ) === null ) {
 			
 			console.log( "New player! Creating new UUID and timestamp." );
-			this.setLocalStore( uuid, timestamp, trial_count );
+			this.setLocalStore( uuid, timestamp, trial_count, solve_count );
 			
-		} else {  // EightQueens obj already stored, check its freshness
+		} else {  // EightQueens JSON obj already in localStorage, check its freshness
 			
 			let freshness = this.checkUserIdFreshness( this.getUuid(),  this.getTimestamp() );
 			
 			if( freshness === false ) {
 				
 				console.log( "Previously stored UUID is older than 24 hours, replacing it!" );
-				this.deleteEightQueens( this.GAME );
-				this.setLocalStore( uuid, timestamp, trial_count )
+				this.destroyEightQueens( this.GAME );
+				this.setLocalStore( uuid, timestamp, trial_count, solve_count );
 				
 			}
 		}
@@ -79,19 +83,35 @@ class Puzzle
 		
 	
 	/**
-	 * setUuid
-	 * setter method for setting UUID in localStorage
+	 * setLocalStore UI Data
+	 * setter method for setting EightQueens 
+	 * localStorage JSON object.
 	 * 
-	 * @return void, sets UUID property
+	 * @return void, sets localStore EightQueens
 	 */
-	setLocalStore( newUuid, newTimestamp, newTrial_Count )
+	setLocalStore( newUuid, newTimestamp, newTrial_Count, newSolve_Count )
 	{
 		this.EightQueensObj.uuid = newUuid;
 		this.EightQueensObj.timestamp = newTimestamp;
 		this.EightQueensObj.trial_count = newTrial_Count;
+		this.EightQueensObj.solve_count = newSolve_Count;
+		
+		console.log( "setLocalStore called with values " + JSON.stringify(this.EightQueensObj) );
 		
 		window.localStorage.setItem( this.GAME, JSON.stringify( this.EightQueensObj ) );
 		
+	}
+	
+	
+	/**
+	 * destroyEightQueens UI Data
+	 * clear the game data from localStorage
+	 * 
+	 * @return void
+	 */
+	destroyEightQueens(lsItem)
+	{
+		window.localStorage.removeItem( lsItem );
 	}
 	
 	
@@ -104,7 +124,6 @@ class Puzzle
 		return JSON.parse( 
 				window.localStorage.getItem( this.GAME ) 
 			);
-		
 	}
 	
 	
@@ -120,7 +139,6 @@ class Puzzle
 		let LSEQ = this.getEightQueens();
 		this.UUID = LSEQ.uuid;
 		return this.UUID; 
-	
 	}
 	
 	
@@ -134,7 +152,6 @@ class Puzzle
 	{
 		let LSEQ = this.getEightQueens();
 		return LSEQ.timestamp;
-		
 	}
 	
 	
@@ -148,14 +165,28 @@ class Puzzle
 	getTrialCount()
 	{
 		let LSEQ = this.getEightQueens();
-		this.CCOUNT = this.LSEQ.timestamp;
+		this.CCOUNT = LSEQ.trial_count;
 		return this.CCOUNT;
 	}
 	
 	
 	/**
-	 * deleteEightQueens
-	 * delete EightQueens from localStore on expired freshness
+	 * getSolveCount()
+	 * getter methods for retrieving Solved Count
+	 * 
+	 * @return {int} EightQueens.solve_count
+	 */
+	getSolveCount()
+	{
+		let SCEQ = this.getEightQueens();
+		this.SCOUNT = SCEQ.solve_count;
+		return this.SCOUNT;
+	}
+	
+	
+	/**
+	 * deleteEightQueens 
+	 * delete specific items from localStore when/if required
 	 * or when the user closes the EightQueens tab.
 	 * 
 	 * @param {string} item, name of the items to remove from localStorage
@@ -169,6 +200,26 @@ class Puzzle
 		}
 		
 		return true;
+	}
+	
+	
+	/**
+	 * Calculates an RFC4122 compliant UUID which is then stored 
+	 * in localStorage and also passed to checkSolutions as 
+	 * the JSON node 'uuid'.
+	 * 
+	 * @returns {string} uuidv4, exp 4560b106-879f-4873-b9d6-e9186b5aaf25 
+	 */
+	createNewUuid()
+	{
+		var str = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx";
+		
+		var uuidv4 = str.replace(/[xy]/g, function(c) {
+			var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+				return v.toString(16);
+			  });
+		
+		return uuidv4;
 	}
 	
 	
@@ -191,29 +242,10 @@ class Puzzle
 		if ( timeDiff > 0 ) freshness = true;
 			
 		return freshness;
-		
 	}
 	
 	
-	/**
-	 * Calculates an RFC4122 compliant UUID which is then stored 
-	 * in localStorage and also passed to checkSolutions as 
-	 * the JSON node 'uuid'.
-	 * 
-	 * @returns {string} uuidv4, exp 4560b106-879f-4873-b9d6-e9186b5aaf25 
-	 */
-	createNewUuid()
-	{
-		var str = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx";
-		
-		var uuidv4 = str.replace(/[xy]/g, function(c) {
-			var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-				return v.toString(16);
-			  });
-		
-		return uuidv4;
-		
-	}
+	
 	
 	
 	/**
@@ -247,7 +279,6 @@ class Puzzle
 		jstring += "}]";
 		
 		return jstring;
-		
 	}
 	
 	
@@ -267,36 +298,48 @@ class Puzzle
 		         let evilQueen = $("div#" + captured[key]);
 		         goodQueen.addClass('highlight');
 		         evilQueen.addClass('highlight');
-		    }
-		    
+		    } 
 		}
-		
 	}
 	
 	
 	/**
-	 * Trial counter accessor function
-	 * @return {object} current count trial (heart) count
+	 * Trial counter
+	 * checks for stored count, if available, use that number
+	 * otherwise, initial load, start count at 1.
+	 * 
+	 * @return {void} sets localStorage
 	 */
-	clickCounter(cnt) 
+	incrementCounter( tcnt, scnt, type ) 
 	{
-		// document.getElementById("tt").innerHTML = this.counter(1);
-		let newCnt = this.counter(cnt);
-		document.getElementById("tt").innerHTML = newCnt;
+		var ic = pcnt => pcnt =+ 1;
+		let n = 0;
+		let usetcnt = false;
+		let usescnt = false;
 		
+		switch(type) {
+		
+			case "trial":
+				n = ic(tcnt);
+				usetcnt = true;
+				console.log( "incrementCounter new trial count value " + n );
+				break;
+				
+			case "solve":
+				n = ic(scnt);
+				usescnt = true;
+				console.log( "incrementCounter new solve count value " + n )
+				
+		}
+			
+		let EQ = this.getEightQueens();
+		this.setLocalStore(
+				EQ.uuid, 
+				EQ.timestamp, 
+				( usetcnt == true ) ? n : tcnt,
+				( usescnt == true ) ? n : scnt
+		);
 		
 	}
-	
-	
-	/**
-	 * Trial counter increment
-	 * @return {object} the new count 
-	 */
-	 counter(cur) 
-	 {
-		 var count = (cur.lenght) ? cur : 0;
-		 return count =+ 1;
-		 
-	 }
 
 }
