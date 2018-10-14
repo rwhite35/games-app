@@ -3,7 +3,6 @@ namespace EightQueens\Gameboard\Controller;
 
 use EightQueens\Gameboard\Model\Board;
 use EightQueens\Gameboard\Solutions\Solution;
-use Symfony\Component\Cache\Simple\FilesystemCache;
 use Exception;
 use EightQueens\Gameboard\Module;
 

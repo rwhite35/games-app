@@ -1,4 +1,5 @@
 <?php
+error_reporting( E_ALL );
 /**
  * checkSolution (psuedo) endpoint for EightQueens game.
  * 

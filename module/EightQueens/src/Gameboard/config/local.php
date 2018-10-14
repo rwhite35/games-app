@@ -83,36 +83,34 @@ class Module
      * * [timestamp]=>(date)1535891381 = 2018-09-02 08:29:41
      * * [trial_count]=>(int)1 ]
      *
-     * @return mixed false on no hit or integer - trial count
+     * @return int $tral_count, 0 when no cache is available or count
      */
     public function getPlayerTrialCnt( string $uuid )
     {
+        $mes = __LINE__ .": Gameboard Module getPlayerTrialCnt working...";
         $trial_count    = 0;
         $plyUuid        = "player_" . $uuid;
-        $gameCache      = $gameCache = new FilesystemAdapter();
-        $playerItem     = $gameCache->getItem( $plyUuid );
         
-        if( !$playerItem->isHit() ) {
-            error_log( __LINE__ .": Gameboard\Module->getPlayerTrialCnt doesn't have items " .
-                "cache key for $plyUuid." );
+        try {
             
-            return false;
+            $gameCache  = $gameCache = new FilesystemAdapter();
+            $playerItem = $gameCache->getItem( $plyUuid );
             
-        } else {
-            error_log( __LINE__ .": Gameboard\Module->getPlayerTrialCnt has player item, " .
-                "getting count for " . $playerItem->getKey() );
+            if( $playerItem->isHit() ) {
+                
+                $array = $playerItem->get();
+                $trial_count = $array['trial_count'];
+                
+            } else {
+                throw new \Exception( 'FilesystemAdapter cache found no cached items.' );
+            }
             
-            $array = $playerItem->get();
-            
-            ob_start();
-            echo ( __LINE__ . ": Gameboard\Module->getPlayerTrialCnt has cached items: " );
-            print_r($array);
-            $str = ob_get_clean();
-            error_log($str);
-            
-            return $array['trial_count'];
+        } catch(\Exception $e) {
+            error_log($mes . " errors " . $e);
             
         }
+         
+        return $array['trial_count'];
         
     }
     
