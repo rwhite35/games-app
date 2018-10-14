@@ -8,8 +8,7 @@ use EightQueens\Gameboard\Controller\BoardController;
 $boardController = new BoardController();
 $boardMatrix = $boardController->boardAction();
 
-// @TODO Remove before push to webserver, temp for dev only!!!!
-$tempDir = "../../robohabilis";
+$tempDir = ( $_SERVER['SERVER_NAME'] == 'localhost' ) ? "../../robohabilis/" : "../../";
 
 ?>
 <!DOCTYPE html>
@@ -25,12 +24,10 @@ $tempDir = "../../robohabilis";
 	<title>Eight Queens</title>	
 
     <!-- Bootstrap (using robo install) and Style CSS -->
-    <!--  <link href="../../dist/css/bootstrap.min.css" rel="stylesheet"> -->
-    <link href="<?php echo $tempDir?>/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo $tempDir?>dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <!-- Robohabilis specific style -->
-    <!--  <link href="../../carousel.css" rel="stylesheet"> -->
-    <link href="<?php echo $tempDir?>/carousel.css" rel="stylesheet">
+    <link href="<?php echo $tempDir?>carousel.css" rel="stylesheet">
     
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -235,8 +232,7 @@ $tempDir = "../../robohabilis";
 		}	
 	}
 </script>
-<!--  <script type="text/javascript" src="../../dist/js/bootstrap.min.js"></script> -->
-<script type="text/javascript" src="<?php echo $tempDir?>/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="<?php echo $tempDir?>dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/Timer.js"></script>
 <script>
   $(document).ready(function () {
