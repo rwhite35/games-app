@@ -6,9 +6,14 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitb66e9184b492d42c3e215f8bb8880ca5
 {
+    public static $files = array (
+        'e277be14c90068cf94faed2c43dbe6d8' => __DIR__ . '/..' . '/symfony/polyfill-php71/bootstrap.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
         'S' => 
         array (
+            'Symfony\\Polyfill\\Php71\\' => 23,
             'Symfony\\Contracts\\' => 18,
             'Symfony\\Component\\VarExporter\\' => 30,
             'Symfony\\Component\\ClassLoader\\' => 30,
@@ -31,6 +36,10 @@ class ComposerStaticInitb66e9184b492d42c3e215f8bb8880ca5
     );
 
     public static $prefixDirsPsr4 = array (
+        'Symfony\\Polyfill\\Php71\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php71',
+        ),
         'Symfony\\Contracts\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/contracts',
@@ -178,6 +187,7 @@ class ComposerStaticInitb66e9184b492d42c3e215f8bb8880ca5
         'Symfony\\Contracts\\Tests\\Translation\\TranslatorTest' => __DIR__ . '/..' . '/symfony/contracts/Tests/Translation/TranslatorTest.php',
         'Symfony\\Contracts\\Translation\\TranslatorInterface' => __DIR__ . '/..' . '/symfony/contracts/Translation/TranslatorInterface.php',
         'Symfony\\Contracts\\Translation\\TranslatorTrait' => __DIR__ . '/..' . '/symfony/contracts/Translation/TranslatorTrait.php',
+        'Symfony\\Polyfill\\Php71\\Php71' => __DIR__ . '/..' . '/symfony/polyfill-php71/Php71.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

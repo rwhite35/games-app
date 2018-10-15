@@ -114,4 +114,5 @@ return array(
     'Symfony\\Contracts\\Tests\\Translation\\TranslatorTest' => $vendorDir . '/symfony/contracts/Tests/Translation/TranslatorTest.php',
     'Symfony\\Contracts\\Translation\\TranslatorInterface' => $vendorDir . '/symfony/contracts/Translation/TranslatorInterface.php',
     'Symfony\\Contracts\\Translation\\TranslatorTrait' => $vendorDir . '/symfony/contracts/Translation/TranslatorTrait.php',
+    'Symfony\\Polyfill\\Php71\\Php71' => $vendorDir . '/symfony/polyfill-php71/Php71.php',
 );
