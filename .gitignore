@@ -21,4 +21,4 @@ config
 # any other vendor specific resource.
 data
 node_modules
-vendor/symfony
+vendor/*
