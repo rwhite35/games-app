@@ -1,6 +1,8 @@
 <?php
 /** local vars */
-$imgsrc = "/games/public/img/";
+$server = $_SERVER['SERVER_NAME'];
+$workspace = ($server == "localhost") ? "/workspace" : ""; 
+$imgsrc = "$workspace/games/public/img/";
 ?>
 <article>
 	<div class="gameboard">

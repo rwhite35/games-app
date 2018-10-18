@@ -8,7 +8,9 @@ use EightQueens\Gameboard\Controller\BoardController;
 $boardController = new BoardController();
 $boardMatrix = $boardController->boardAction();
 
-$tempDir = ( $_SERVER['SERVER_NAME'] == 'localhost' ) ? "../../robohabilis/" : "../../";
+$URL        = $_SERVER['HTTP_HOST'];
+$server     = $_SERVER['SERVER_NAME'];
+$tempDir    = ( $server == 'localhost' ) ? "../../robohabilis/" : "../../";
 
 ?>
 <!DOCTYPE html>
@@ -108,9 +110,9 @@ $tempDir = ( $_SERVER['SERVER_NAME'] == 'localhost' ) ? "../../robohabilis/" : "
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
-						<li class="active"><a href="http://robohabilis.com">home</a></li>
-						<li><a href="../../about/">about</a></li>
-						<li><a href="../../contact/">contact</a></li>
+						<li class="active"><a href="http://<?php echo $URL?>">home</a></li>
+						<li><a href="http://<?php echo $URL?>/about/">about</a></li>
+						<li><a href="http://<?php echo $URL?>/contact/">contact</a></li>
 					</ul>
 				</div>
 				</div>
@@ -131,8 +133,8 @@ $tempDir = ( $_SERVER['SERVER_NAME'] == 'localhost' ) ? "../../robohabilis/" : "
 					Solve the Eight Queens Puzzle
 					<img src="img/diamonds.png" alt="Diamonds" height=25px>
 				</h3>
-				<p>Place each Queen on gameboard so they are not captured by another Queen.<br>
-				A Queen moves in all directions including diagonal to capture her enemies.
+				<p>Click & drag Queens onto the gameboard one per row.  Queens capture<br>
+				enemies that occupy the same row, column or diagonal as another Queen.
 				</p>
 			</div>
 			<div class="gameboard col-md-1"></div>
