@@ -133,8 +133,8 @@ $tempDir    = ( $server == 'localhost' ) ? "../../robohabilis/" : "../../";
 					Solve the Eight Queens Puzzle
 					<img src="img/diamonds.png" alt="Diamonds" height=25px>
 				</h3>
-				<p>Click & drag Queens onto the gameboard one per row.  Queens capture<br>
-				enemies that occupy the same row, column or diagonal as another Queen.
+				<p>Click & drag Queens onto the gameboard so that no Queen is captured.<br>
+				Two Queens occuping the same row, column or diagonal are captured!
 				</p>
 			</div>
 			<div class="gameboard col-md-1"></div>
@@ -148,6 +148,17 @@ $tempDir    = ( $server == 'localhost' ) ? "../../robohabilis/" : "../../";
 					<button id="start">start</button>
 					<button id="stop">stop</button>
 					<button id="clear">clear</button>
+				</div>
+				<hr>
+				<div>
+					<p>&quot;Constraint Satisfaction&quot; problems feature conditions that must 
+					be met in order to solve the problem.  Similar to Sudoku, Eight Queens 
+					requires each Queen to be placed on the gameboard without infringing on 
+					another Queens position.  When two Queens occupy the same row, column or diagonal
+					the solution fails to meet the constraints.</p>
+					<p><a href="http://<?php echo $URL?>/contact/">Request</a> an email link to 
+					receive a free PDF about the programming challenges for this game and 
+					how we solved them.</p>      
 				</div>
 			</div>
 			<div id="board" class="gameboard col-md-8">
